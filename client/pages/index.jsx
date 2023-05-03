@@ -1,18 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Header, Footer } from "@/components/layout";
 import { animes } from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { useStateContext } from "@/context/ContextProvider";
 
 const Slider = (props) => (
-  <div
-    className="h-96 bg-gray-100 rounded-lg my-4 overflow-hidden
-   flex items-center justify-center relative 
-   transition duration-700 ease-linear"
-  >
+  <div className="h-96 bg-gray-100 dark:bg-neutral-500 rounded-lg my-4 overflow-hidden flex items-center justify-center relative dark:shadow-infull dark:shadow-lime-200">
     <div className="w-full flex justify-around items-center ">
       {props.items.slice(props.pos, props.pos + 5).map((item, index) => (
         <div
@@ -20,7 +15,7 @@ const Slider = (props) => (
           transition duration-500 ease-linear group`}
           key={index}
         >
-          <div className="relative w-40 h-64 hover:drop-shadow-2xl shadow-lg shadow-yellow-500 rounded-lg">
+          <div className="relative w-40 h-64 hover:drop-shadow-2xl shadow-full shadow-yellow-500 dark:shadow-lime-200 rounded-lg">
             <Image
               src={item.image}
               alt={item.name}
@@ -32,7 +27,7 @@ const Slider = (props) => (
             </div>
           </div>
           <div
-            className="group-hover:font-bold group-hover:text-yellow-400 group-hover:drop-shadow-xl group-hover:drop-shadow-yellow-400
+            className="dark:text-lime-200 group-hover:font-bold group-hover:text-yellow-400 group-hover:drop-shadow-xl group-hover:drop-shadow-yellow-400
              w-40 whitespace-nowrap overflow-hidden text-ellipsis text-center"
           >
             {item.name}
@@ -41,17 +36,13 @@ const Slider = (props) => (
       ))}
     </div>
     <div
-      className="absolute left-2 top-1/2 -translate-y-1/2 text-2xl
-     text-gray-400 w-12 h-12 rounded-full bg-slate-200 
-     flex justify-center items-center"
+      className="absolute left-2 top-1/2 -translate-y-1/2 text-2xl text-gray-400 dark:text-lime-200 w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
       onClick={props.handleDecIndex}
     >
       <FontAwesomeIcon icon={faAngleLeft} />
     </div>
     <div
-      className="absolute right-2 top-1/2 -translate-y-1/2 text-2xl
-     text-gray-400 w-12 h-12 rounded-full bg-slate-200
-     flex justify-center items-center"
+      className="absolute right-2 top-1/2 -translate-y-1/2 text-2xl text-gray-400 dark:text-lime-200 w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
       onClick={props.handleIncIndex}
     >
       <FontAwesomeIcon icon={faAngleRight} />
@@ -60,40 +51,42 @@ const Slider = (props) => (
 );
 
 const index = () => {
-  const { indexAnime, setIndexAnime } = useStateContext();
+  const [indexAnime, setIndexAnime] = useState(0);
+  const [indexAnime2, setIndexAnime2] = useState(0);
 
-  const handleIncIndex = () => {
-    setIndexAnime((prev) =>
-      prev <= Math.ceil(animes.length / 5)
-        ? ++prev
-        : Math.ceil(animes.length / 5)
-    );
+  const handleIncIndex = (setIndex) => {
+    setIndex((prev) => (prev <= Math.ceil(animes.length / 5) ? ++prev : 0));
+    console.log(indexAnime);
   };
 
-  const handleDecIndex = () => {
-    setIndexAnime((prev) => (prev > 0 ? --prev : 0));
+  const handleDecIndex = (setIndex) => {
+    setIndex((prev) => (prev > 0 ? --prev : Math.ceil(animes.length % 5)));
   };
 
   return (
     <div>
-      <Header />
-      <div className="mx-auto lg:w-4/5 min-h-screen">
-        <div className="font-medium text-gray-400 mt-4">Nổi bật</div>
+      {/* <Header /> */}
+      <div className="mx-auto lg:w-4/5 min-h-screen z-0 relative">
+        <div className="font-medium text-gray-400 mt-4 dark:text-lime-200">
+          Nổi bật
+        </div>
         <Slider
           items={animes}
           pos={indexAnime}
-          handleIncIndex={handleIncIndex}
-          handleDecIndex={handleDecIndex}
+          handleIncIndex={() => handleIncIndex(setIndexAnime)}
+          handleDecIndex={() => handleDecIndex(setIndexAnime)}
         />
-        <div className="font-medium text-gray-400 mb-4">Mới cập nhật</div>
+        <div className="font-medium text-gray-400 mb-4 dark:text-lime-200">
+          Mới cập nhật
+        </div>
         <Slider
           items={animes.sort()}
-          pos={indexAnime}
-          handleIncIndex={handleIncIndex}
-          handleDecIndex={handleDecIndex}
+          pos={indexAnime2}
+          handleIncIndex={() => handleIncIndex(setIndexAnime2)}
+          handleDecIndex={() => handleDecIndex(setIndexAnime2)}
         />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -15,7 +15,12 @@ module.exports = {
           400: "#FFD93D",
         },
       },
+      boxShadow: {
+        full: "0 0 5px 5px rgba(0,0,0,0.5)",
+        infull: "inset 0 0 3px 3px rgba(0,0,0,0.5)",
+      },
     },
   },
+  darkMode: "class",
   plugins: [],
 };
