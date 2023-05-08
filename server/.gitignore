@@ -1,0 +1,7 @@
+# server
+/node_modules/
+animeFilm-backup.bak
+
+# admin dashboard
+/admin-dashboard/node_modules/
+/admin-dashboard/assets/videos/*.mp4
