@@ -1,4 +1,5 @@
 const mssql = require('../db.js')
+const {addNotification} = require('./notifyController.js')
 
 const getAllFilm = (req, res) => {
     const query = 'SELECT f.id, filmName, originName, thurmUrl , status, episodeCurrent, episodeTotal, countryName FROM film f, country c where f.country = c.id'
@@ -12,6 +13,7 @@ const getAllFilm = (req, res) => {
 const createFilm = (req, res) => {
     const data =  req.body
     const status = data.status ? 1 : 0
+    const episodeTotal = data.episodeTotal ? data.episodeTotal : null
     const query = `
     INSERT INTO film (
         [filmName]
@@ -36,8 +38,8 @@ const createFilm = (req, res) => {
         '${data.thumbUrl}',
         '${data.trailerUrl}', 
         '${data.posterUrl}', 
-        ${data.episodeCurrent}, 
-        ${data.episodeTotal}, 
+        0, 
+        ${episodeTotal}, 
         N'${data.timeUNE}', 
         ${data.debutYear},  
         0, 
@@ -47,7 +49,10 @@ const createFilm = (req, res) => {
         N'${data.description}'
     )`
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification(`${data.filmName} film`, 'was created')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
@@ -80,7 +85,10 @@ const updateFilm = (req, res) => {
        ,[description] = N'${data.description}'
   WHERE id=${data.id}`
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification(`Film ${data.filmName}`, 'was updated')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
@@ -89,7 +97,10 @@ const deleteFilm = (req, res) => {
     const query = `DELETE FROM film WHERE id = ${id}`
   
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification('A film', 'was updated')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 

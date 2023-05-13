@@ -1,4 +1,5 @@
 const mssql = require('../db.js')
+const {addNotification} = require('./notifyController.js')
 
 const getAllCategory = (req, res) => {
     const query = 'SELECT id, categoryName FROM category'
@@ -14,7 +15,10 @@ const createCategory = (req, res) => {
     VALUES (N'${data.categoryName}')`
 
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification('New category','was created')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
@@ -34,7 +38,10 @@ const updateCategory = (req, res) => {
   WHERE id = ${data.id}`
   
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification(`Category ${data.categoryName}`, 'was updated')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
@@ -43,7 +50,10 @@ const deleteCategory = (req, res) => {
     const query = `DELETE FROM category WHERE id = ${id}`
   
     mssql.query(query)
-        .then((result) => res.json(result.rowsAffected))
+        .then((result) => {
+            addNotification('A category', 'was deleted')
+            res.json(result.rowsAffected)
+        })
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
