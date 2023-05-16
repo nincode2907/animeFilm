@@ -62,9 +62,11 @@ const Header = () => {
         <FontAwesomeIcon icon={faBars} />
       </div>
       {/* Logo */}
-      <div className=" text-2xl text-red-400 dark:text-lime-200 basis-2/4 text-center drop-shadow-lg">
-        AniAni
-      </div>
+      <Link href={"/"}>
+        <div className=" text-2xl text-red-400 font-semibold dark:text-lime-200 basis-2/4 text-center drop-shadow-lg">
+          AniAni
+        </div>
+      </Link>
       {/* Navigation */}
       <div
         className={`${
@@ -85,44 +87,46 @@ const Header = () => {
         })}
       </div>
       {/* User */}
-      <div className=" flex gap-4 basis-1/4 px-2 ">
-        <div className="relative flex items-center">
-          <input
-            type="text"
-            className="px-2 py-1 rounded-md border-none outline outline-2 outline-gray-300 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
-          />
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className="absolute right-0 mr-3 text-gray-300 dark:text-gray-400 peer-focus-within:text-gray-400 dark:peer-focus-within:text-gray-500  "
-          />
-        </div>
-        <div className=" w-7 h-7 rounded-full outline-1 outline-gray-400 dark:outline-lime-200 outline flex justify-center items-center">
-          <FontAwesomeIcon
-            onClick={() => setActiveUser((prev) => !prev)}
-            icon={faUser}
-            className="text-gray-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
-          />
-          <div
-            className={`${
-              activeUser
-                ? "absolute flex flex-col gap-3 right-2 top-full py-4 px-5 bg-slate-50 dark:bg-neutral-500 dark:outline dark:outline-2 dark:outline-lime-200 rounded-md text-gray-400 z-20"
-                : "hidden"
-            }`}
-          >
-            {users.map((user, index) => (
-              <div className="w-36 dark:text-lime-200" key={index}>
-                <Link href={user.path}>
-                  <span className=" pr-3">
-                    <FontAwesomeIcon icon={user.icon} />
-                  </span>
-                  {user.name}
-                </Link>
+      <div className=" flex gap-4 h-full basis-1/4 px-2 ">
+        <div className="relative flex gap-4 items-center">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              className="px-2 py-1 rounded-md border-none outline outline-2 outline-gray-300 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
+            />
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              className="absolute right-0 mr-3 text-gray-300 dark:text-gray-400 peer-focus-within:text-gray-400 dark:peer-focus-within:text-gray-500  "
+            />
+          </div>
+          <div className="w-7 h-7 rounded-full outline-1 outline-gray-400 dark:outline-lime-200 outline flex justify-center items-center">
+            <FontAwesomeIcon
+              onClick={() => setActiveUser((prev) => !prev)}
+              icon={faUser}
+              className="text-gray-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
+            />
+            <div
+              className={`${
+                activeUser
+                  ? "absolute flex flex-col gap-3 right-0 top-full py-4 px-5 bg-slate-50 dark:bg-neutral-500 dark:outline dark:outline-2 dark:outline-lime-200 rounded-md text-gray-400 z-20"
+                  : "hidden"
+              }`}
+            >
+              {users.map((user, index) => (
+                <div className="w-36 dark:text-lime-200" key={index}>
+                  <Link href={user.path}>
+                    <span className=" pr-3">
+                      <FontAwesomeIcon icon={user.icon} />
+                    </span>
+                    {user.name}
+                  </Link>
+                </div>
+              ))}
+              {/* Mode */}
+              <div className="flex items-center">
+                <SwitchButton icon={faSun} />
+                <span className="pl-4 dark:text-lime-200">Chế độ</span>
               </div>
-            ))}
-            {/* Mode */}
-            <div className="flex items-center">
-              <SwitchButton icon={faSun} />
-              <span className="pl-4 dark:text-lime-200">Chế độ</span>
             </div>
           </div>
         </div>

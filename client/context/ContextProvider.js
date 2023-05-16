@@ -6,6 +6,8 @@ const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(false);
   const [activeUser, setActiveUser] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [detailAnime, setDetailAnime] = useState({});
+
   useEffect(() => {
     if (localStorage.getItem("anime-mode") === null) {
       localStorage.setItem("anime-mode", false);
@@ -33,6 +35,8 @@ const ContextProvider = ({ children }) => {
         setActiveUser,
         darkMode,
         setDarkMode,
+        detailAnime,
+        setDetailAnime,
       }}
     >
       {children}
