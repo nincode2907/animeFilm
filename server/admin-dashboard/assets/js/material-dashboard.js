@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Material Dashboard 2 - v3.0.5
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (site.license)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 "use strict";
 (function() {
   var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
@@ -130,18 +112,20 @@ if (document.querySelector('.fixed-plugin')) {
     }
   }
 
-  if (navbar) {
-    if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
-      buttonNavbarFixed.setAttribute("checked", "true");
-    }
-  }
+  // if (navbar) {
+  //   if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
+  //     buttonNavbarFixed.setAttribute("checked", "true");
+  //   }
+  // }
 
 }
-
+ 
 //Set Sidebar Color
 function sidebarColor(a) {
   var parent = document.querySelector(".nav-link.active");
   var color = a.getAttribute("data-color");
+  var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "badge-color": color};
+  localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
 
   if (parent.classList.contains('bg-gradient-primary')) {
     parent.classList.remove('bg-gradient-primary');
@@ -168,6 +152,8 @@ function sidebarColor(a) {
 function sidebarType(a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
+  var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "sidebar-type": color};
+  localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
   var body = document.querySelector("body");
   var bodyWhite = document.querySelector("body:not(.dark-version)");
   var bodyDark = body.classList.contains('dark-version');
@@ -254,11 +240,15 @@ function navbarFixed(el) {
 
   if (!el.getAttribute("checked")) {
     navbar.classList.add(...classes);
+    var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "navbar-fixed": "fixed"};
+    localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
     navbar.setAttribute('navbar-scroll', 'true');
     navbarBlurOnScroll('navbarBlur');
     el.setAttribute("checked", "true");
   } else {
     navbar.classList.remove(...classes);
+    var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "navbar-fixed": "none"};
+    localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
     navbar.setAttribute('navbar-scroll', 'false');
     navbarBlurOnScroll('navbarBlur');
     el.removeAttribute("checked");
@@ -694,6 +684,8 @@ function darkMode(el) {
 
   if (!el.getAttribute("checked")) {
     body.classList.add('dark-version');
+    var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "dark-mode": "dark"};
+    localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('dark')) {
         hr[i].classList.remove('dark');
@@ -759,6 +751,8 @@ function darkMode(el) {
     el.setAttribute("checked", "true");
   } else {
     body.classList.remove('dark-version');
+    var adminMode = {...JSON.parse(localStorage.getItem('ani-admin-mode')), "dark-mode": "light"};
+    localStorage.setItem("ani-admin-mode", JSON.stringify(adminMode));
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('light')) {
         hr[i].classList.add('dark');

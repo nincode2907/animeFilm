@@ -197,107 +197,9 @@
                   <i class="fa fa-bell cursor-pointer"></i>
                 </a>
                 <ul
+                  id="notify-list"
                   class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                   aria-labelledby="dropdownMenuButton">
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;">
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/team-2.jpg"
-                            class="avatar avatar-sm me-3" />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New message</span>
-                            from Laur
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            13 minutes ago
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="mb-2">
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;">
-                      <div class="d-flex py-1">
-                        <div class="my-auto">
-                          <img
-                            src="../assets/img/small-logos/logo-spotify.svg"
-                            class="avatar avatar-sm bg-gradient-dark me-3" />
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New album</span> by
-                            Travis Scott
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            1 day
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="dropdown-item border-radius-md"
-                      href="javascript:;">
-                      <div class="d-flex py-1">
-                        <div
-                          class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                          <svg
-                            width="12px"
-                            height="12px"
-                            viewBox="0 0 43 36"
-                            version="1.1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <title>credit-card</title>
-                            <g
-                              stroke="none"
-                              stroke-width="1"
-                              fill="none"
-                              fill-rule="evenodd">
-                              <g
-                                transform="translate(-2169.000000, -745.000000)"
-                                fill="#FFFFFF"
-                                fill-rule="nonzero">
-                                <g
-                                  transform="translate(1716.000000, 291.000000)">
-                                  <g
-                                    transform="translate(453.000000, 454.000000)">
-                                    <path
-                                      class="color-background"
-                                      d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                      opacity="0.593633743"></path>
-                                    <path
-                                      class="color-background"
-                                      d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                                  </g>
-                                </g>
-                              </g>
-                            </g>
-                          </svg>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="text-sm font-weight-normal mb-1">
-                            Payment successfully completed
-                          </h6>
-                          <p class="text-xs text-secondary mb-0">
-                            <i class="fa fa-clock me-1"></i>
-                            2 days
-                          </p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
                 </ul>
               </li>
             </ul>
@@ -324,13 +226,6 @@
               <div class="card-body px-0 pb-2">
                 <div class="table-responsive px-4 py-2">
                   <form method="POST" role="form" id="episode-form" class="needs-validation" novalidate>
-                      <div class="input-group input-group-outline mb-3 col-6 is-filled">
-                        <label class="form-label">Input name...</label>
-                        <input name="name" type="text" class="form-control" required/>
-                        <div class="invalid-feedback">
-                          Please input here.
-                        </div>
-                      </div>
                     <div class="input-group input-group-outline mb-3 is-filled">
                       <label class="form-label">Input number set...</label>
                       <input name="number_set" type="number" class="form-control" min="1"/>
@@ -457,7 +352,7 @@
             <h6 class="mb-0">Sidebar Colors</h6>
           </div>
           <a href="javascript:void(0)" class="switch-trigger background-color">
-            <div class="badge-colors my-2 text-start">
+            <div id="badge-colors" class="badge-colors my-2 text-start">
               <span
                 class="badge filter bg-gradient-primary active"
                 data-color="primary"
@@ -489,7 +384,7 @@
             <h6 class="mb-0">Sidenav Type</h6>
             <p class="text-sm">Choose between 2 different sidenav types.</p>
           </div>
-          <div class="d-flex">
+          <div id="sidebar-types" class="d-flex">
             <button
               class="btn bg-gradient-dark px-3 mb-2 active"
               data-class="bg-gradient-dark"
@@ -548,6 +443,10 @@
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script>
+      const badgeColors = document.querySelectorAll("#badge-colors span")
+      const sideBarTypes = document.querySelectorAll("#sidebar-types button")
+      const navbarFixedCheckBox = document.getElementById("navbarFixed")
+      const darkCheckBox = document.getElementById("dark-version")
       const selectFormFilm = document.getElementById('select_form_film');
       const toastErrContent = document.querySelector("#dangerToast .toast-body")
 
@@ -564,6 +463,40 @@
       
       const toast = document.getElementById("successToast");
       const errToast = document.getElementById("dangerToast");
+      const notifications = document.getElementById('notify-list');
+      const calculationTimeDiff = (timeNotify) => {
+        // Lấy thời gian hiện tại
+        const now = new Date();
+
+        // Tính khoảng cách thời gian từ thời điểm n.time đến hiện tại
+        const timeDiff = now.getTime() - timeNotify.getTime();
+
+        // Tính toán số lượng đơn vị thời gian khác nhau
+        const seconds = Math.floor(timeDiff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(months / 12);
+
+        let timeDiffString = ''
+
+        // Hiển thị kết quả theo đơn vị thời gian khác nhau
+        if (seconds < 60) {
+          timeDiffString = `${seconds} seconds ago`
+        } else if (minutes < 60) {
+          timeDiffString = `${minutes} minutes ago`
+        } else if (hours < 24) {
+          timeDiffString = `${hours} hours ago`
+        } else if (days < 30) {
+          timeDiffString = `${days} days ago`
+        } else if (months < 12) {
+          timeDiffString = `${months} months ago`
+        } else {
+          timeDiffString = `${years} years ago`
+        }
+        return timeDiffString
+      }
       const showToast = () => {
         toast.classList.add("show");
         toast.classList.remove("fade");
@@ -585,29 +518,77 @@
       };
       // Lấy đối tượng form và các trường dữ liệu trong form
       const form = document.getElementById("episode-form");
-      const nameInput = document.querySelector("input[name='name']");
       const numberSetInput = document.querySelector("input[name='number_set']");
       const linkEmbedInput = document.querySelector("input[name='link_embed']"); 
 
       //Load data start
       window.addEventListener("load", async () => {
-        await fetch("http://localhost:8000/api/episode/edit?id="+id)
+        let animeMode = JSON.parse(localStorage.getItem('ani-admin-mode'));
+        badgeColors.forEach((b) => {
+          if(b.getAttribute("data-color") === animeMode['badge-color']) 
+            b.click(this);
+        })
+        sideBarTypes.forEach((sb) => {
+          if(sb.getAttribute("data-class") === animeMode['sidebar-type']) 
+            sb.click(this);
+        }) 
+        if(animeMode['navbar-fixed'] == "none") 
+          navbarFixedCheckBox.click();
+        if(animeMode['dark-mode'] == "dark") 
+          darkCheckBox.click();
+        fetch("http://localhost:8000/api/episode/edit?id="+id)
           .then((response) => response.json())
           .then(async (result) => {
-            console.log(result);
-            nameInput.value = result.name
             numberSetInput.value = result.number_set
             linkEmbedInput.value = result.linkEmbed
-            await fetch("http://localhost:8000/api/film/")
+            fetch("http://localhost:8000/api/film/")
               .then((response) => response.json())
               .then((films) => {
                 let html ='<option>Select the film</option>';
                 films.forEach((f) => {
-                  console.log(result);
                   if(f.id === result.film_id)  html += `<option value='${f.id}' selected>${f.filmName}</option>`
                   else  html += `<option value='${f.id}'>${f.filmName}</option>`
                 });
                 selectFormFilm.innerHTML = html;
+                fetch("http://localhost:8000/api/notify/")
+                .then((response) => response.json())
+                .then((notifies) => {
+                  let html1 = "";
+                  notifies.forEach((n,i) => {
+                    const timeNotify = new Date(n.time);
+                    const timeDiff = calculationTimeDiff(timeNotify)
+                    const classLi = (i != notifies.length - 1 ? 'mb-2' : '')
+                    let iconAction = '';
+                    if(n.action.includes('created'))
+                      iconAction = 'create'
+                    else if(n.action.includes('updated'))
+                      iconAction = 'update'
+                    else 
+                      iconAction = 'delete';
+                    html1 += `<li class="${classLi}">
+                              <a
+                                class="dropdown-item border-radius-md"
+                                href="javascript:;">
+                                <div class="d-flex py-1">
+                                  <div class="my-auto me-3">
+                                    <i class="material-icons text-3xl">${iconAction}</i>
+                                  </div>
+                                  <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="text-sm font-weight-normal mb-1">
+                                      <span class="font-weight-bold">${n.strongOfAction}</span>
+                                      ${n.action}
+                                    </h6>
+                                    <p class="text-xs text-secondary mb-0">
+                                      <i class="fa fa-clock me-1"></i>
+                                      ${timeDiff}
+                                    </p>
+                                  </div>
+                                </div>
+                              </a>
+                            </li>`;
+                  });
+                  notifications.innerHTML = html1;
+                })
               })
               .catch(err => {
                 toastErrContent.innerHTML = "An error occurred while connecting to the server";
@@ -624,7 +605,6 @@
                 hideErrToast();
               }, 2000)
           })
-        
       });
       
 
@@ -637,17 +617,18 @@
         const result = confirm("Are you sure you want to update this episode?");
         if(result) {
           // Lấy giá trị của các trường dữ liệu
-          const episodeName = nameInput.value;
           const numberSet = numberSetInput.value;
           const linkEmbed =  linkEmbedInput.value;
           const filmId = selectFormFilm.value;
+          const selectedOption = selectFormFilm.options[selectFormFilm.selectedIndex];
+          const filmName = selectedOption.text;
   
           // Tạo đối tượng dữ liệu để gửi đến API
           const data = {id,
-            episodeName,
             numberSet,
             linkEmbed,
-            filmId
+            filmId,
+            filmName
           };
   
           // Gửi yêu cầu POST đến API
@@ -677,10 +658,7 @@
             });
         }
       });
-
     </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-dashboard.min.js?v=3.0.5"></script>
   </body>
