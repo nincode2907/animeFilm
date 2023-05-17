@@ -11,9 +11,7 @@ import { SlideShow } from "@/components/Sections";
 
 const index = () => {
   //   useEffect(() => {
-  //     fetch("http://localhost:8000/api/film/")
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data));
+  //     console.log(animes.sort((a, b) => (a.rating - b.rating) * -1));
   //   }, []);
 
   return (
@@ -22,11 +20,17 @@ const index = () => {
         <div className="font-medium text-gray-400 bg-yellow-400 mt-4 dark:text-black pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
           Nổi bật
         </div>
-        <SlideShow size={4} items={animes} />
+        <SlideShow
+          size={4}
+          items={animes.sort((a, b) => (a.rating - b.rating) * -1)}
+        />
         <div className="font-medium text-gray-400 bg-yellow-400 mb-4 dark:text-black pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
           Mới cập nhật
         </div>
-        <SlideShow size={5} items={animes.sort()} />
+        <SlideShow
+          size={5}
+          items={animes.sort((a, b) => a.release.localeCompare(b.release))}
+        />
       </div>
     </div>
   );

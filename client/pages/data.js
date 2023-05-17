@@ -37,12 +37,12 @@ export const allGenre = [
 
 export const users = [
   {
-    path: "/login",
+    path: "/user/sign-in",
     name: "Đăng nhập",
     icon: faUser,
   },
   {
-    path: "/register",
+    path: "/user/sign-up",
     name: "Đăng ký",
     icon: faAddressCard,
   },

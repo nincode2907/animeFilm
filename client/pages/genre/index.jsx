@@ -25,7 +25,7 @@ const Genre = () => {
 
   useEffect(() => {
     setGenres("All");
-  });
+  }, []);
 
   return (
     <div className="mx-auto w-4/5 ">
@@ -55,44 +55,37 @@ const Genre = () => {
         </div>
       </div>
       <div className="min-h-screen shadow-infull dark:shadow-lime-200 dark:bg-transparent bg-slate-100 shadow-yellow-500 rounded-lg mb-4 flex flex-wrap justify-center gap-4 py-3 px-4">
-        {animes.filter((anime) => anime.genres.includes(genres)).length ===
-        0 ? (
-          <div className="text-center dark:text-lime-200 text-yellow-500">
-            Hiện chưa có các bộ thuộc thể loại này
-          </div>
-        ) : (
-          animes
-            .filter((anime) => anime.genres.includes(genres))
-            .map((item, index) => {
-              return (
-                <Link href={`/anime/${item.name}`}>
-                  <div
-                    className="flex flex-col items-center sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[24rem] relative"
-                    key={index}
-                  >
-                    <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="rounded-lg"
-                      />
-                      <div className="absolute top-3 right-3 w-10 h-10 bg-gray-500/80 text-yellow-300/80 flex items-center justify-center rounded-full">
-                        {item.rating}
-                      </div>
-                    </div>
-                    <div
-                      className="dark:text-lime-200 group-hover:font-bold group-hover:text-red-600 dark:group-hover:text-yellow-500  group-hover:drop-shadow-xl 
-                    w-40 whitespace-nowrap overflow-hidden text-ellipsis text-center mt-2
-                    "
-                    >
-                      {item.name}
+        {animes
+          .filter((anime) => anime.genres.includes(genres))
+          .map((item, index) => {
+            return (
+              <Link href={`/anime/${item.name}`}>
+                <div
+                  className="flex flex-col items-center sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[24rem] relative"
+                  key={index}
+                >
+                  <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="rounded-lg"
+                    />
+                    <div className="absolute top-3 right-3 w-10 h-10 bg-gray-500/80 text-yellow-300/80 flex items-center justify-center rounded-full">
+                      {item.rating}
                     </div>
                   </div>
-                </Link>
-              );
-            })
-        )}
+                  <div
+                    className="dark:text-lime-200 group-hover:font-bold group-hover:text-red-600 dark:group-hover:text-yellow-500  group-hover:drop-shadow-xl 
+                    w-40 whitespace-nowrap overflow-hidden text-ellipsis text-center mt-2
+                    "
+                  >
+                    {item.name}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </div>
   );
