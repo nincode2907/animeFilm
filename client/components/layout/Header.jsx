@@ -113,7 +113,10 @@ const Header = () => {
               }`}
             >
               {users.map((user, index) => (
-                <div className="w-36 dark:text-lime-200" key={index}>
+                <div
+                  className="w-36 dark:text-lime-200 hover:text-gray-600"
+                  key={index}
+                >
                   <Link href={user.path}>
                     <span className=" pr-3">
                       <FontAwesomeIcon icon={user.icon} />

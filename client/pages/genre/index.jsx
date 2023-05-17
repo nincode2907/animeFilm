@@ -28,7 +28,7 @@ const Genre = () => {
   }, []);
 
   return (
-    <div className="mx-auto w-4/5 ">
+    <div className="mx-auto w-4/5 drop-shadow-lg">
       <div className="min-h-fit my-4 rounded-lg">
         <Slider {...settings}>
           {allGenre.map((item, index) => (
@@ -61,7 +61,7 @@ const Genre = () => {
             return (
               <Link href={`/anime/${item.name}`}>
                 <div
-                  className="flex flex-col items-center sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[24rem] relative"
+                  className="flex flex-col items-center drop-shadow-xl sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[24rem] relative"
                   key={index}
                 >
                   <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">
