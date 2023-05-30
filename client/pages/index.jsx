@@ -17,14 +17,14 @@ const index = () => {
   return (
     <div>
       <div className="mx-auto lg:w-4/5 min-h-screen z-0 relative">
-        <div className="font-medium text-gray-400 bg-yellow-400 mt-4 dark:text-black pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
+        <div className="font-medium transition duration-300 ease-in text-gray-400 bg-yellow-400 mt-4 dark:text-gray-500 pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
           Nổi bật
         </div>
         <SlideShow
           size={4}
           items={animes.sort((a, b) => (a.rating - b.rating) * -1)}
         />
-        <div className="font-medium text-gray-400 bg-yellow-400 mb-4 dark:text-black pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
+        <div className="font-medium transition duration-300 ease-in text-gray-400 bg-yellow-400 mb-4 dark:text-gray-500 pl-4 py-2 drop-shadow-xl w-full dark:bg-lime-300">
           Mới cập nhật
         </div>
         <SlideShow

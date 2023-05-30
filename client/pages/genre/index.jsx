@@ -21,6 +21,49 @@ const Genre = () => {
     className: "center bg-black",
     centerMode: true,
     useCSS: true,
+    adaptiveHeight: true,
+    responsive: [
+      {
+        breakpoint: 1250,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          verticalSwiping: true,
+          swipeToSlide: true,
+          vertical: true,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          verticalSwiping: true,
+          swipeToSlide: true,
+          vertical: true,
+          arrows: false,
+        },
+      },
+    ],
   };
 
   useEffect(() => {
@@ -28,18 +71,14 @@ const Genre = () => {
   }, []);
 
   return (
-    <div className="mx-auto w-4/5 drop-shadow-lg">
+    <div className="md:mx-auto md:w-4/5 w-full drop-shadow-lg box-border">
       <div className="min-h-fit my-4 rounded-lg">
         <Slider {...settings}>
           {allGenre.map((item, index) => (
             <div
               className="flex items-center justify-center cursor-pointer text-white px-4 py-3 bg-yellow-500 dark:bg-lime-400 hover:opacity-80"
               key={index}
-              onClick={() =>
-                setGenres((prev) => {
-                  return item;
-                })
-              }
+              onClick={() => setGenres(item)}
             >
               <div className="text-center">{item}</div>
             </div>
@@ -54,14 +93,17 @@ const Genre = () => {
           Tất cả
         </div>
       </div>
-      <div className="min-h-screen shadow-infull dark:shadow-lime-200 dark:bg-transparent bg-slate-100 shadow-yellow-500 rounded-lg mb-4 flex flex-wrap justify-center gap-4 py-3 px-4">
+      <div className="shadow-infull dark:shadow-lime-200 dark:bg-transparent bg-slate-100 shadow-yellow-500 rounded-lg mb-4 py-4">
         {animes
           .filter((anime) => anime.genres.includes(genres))
           .map((item, index) => {
             return (
-              <Link href={`/anime/${item.name}`}>
+              <Link
+                href={`/anime/${item.name}`}
+                className="inline-block w-1/2 sm:w-1/4 md:w-1/5 lg:w-1/6 text-center p-4"
+              >
                 <div
-                  className="flex flex-col items-center drop-shadow-xl sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[24rem] relative"
+                  className="flex flex-col items-center drop-shadow-xl sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[15rem] relative"
                   key={index}
                 >
                   <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">

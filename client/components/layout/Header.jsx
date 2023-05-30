@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { pages, users } from "@/pages/data";
 import Link from "next/link";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -10,6 +11,7 @@ import {
   faRightToBracket,
   faSun,
   faMoon,
+  faListUl,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "@/context/ContextProvider";
 
@@ -43,28 +45,22 @@ const SwitchButton = (props) => {
 };
 
 const Header = () => {
-  const {
-    activeMenu,
-    setActiveMenu,
-    activeUser,
-    setActiveUser,
-    darkMode,
-    setDarkMode,
-  } = useStateContext();
+  const { activeMenu, setActiveMenu, activeUser, setActiveUser, isSignIn } =
+    useStateContext();
 
   return (
-    <div className=" h-12 w-full drop-shadow-lg shadow-lg flex items-center justify-around z-20 relative dark:bg-neutral-500 dark:shadow-md dark:shadow-lime-200">
+    <div className="box-border h-12 w-full drop-shadow-lg shadow-lg flex items-center justify-around z-20 relative dark:bg-neutral-500 dark:shadow-md dark:shadow-lime-200">
       {/* Icon Nav */}
       <div
-        className="text-2xl basis-1/4 text-center text-gray-400 dark:text-lime-200 hover:text-gray-600 cursor-pointer transition-all"
+        className=" basis-1/4 text-center text-gray-400 dark:text-lime-200 hover:text-gray-600 cursor-pointer transition-all"
         onClick={() => setActiveMenu((prev) => !prev)}
       >
-        <FontAwesomeIcon icon={faBars} />
+        <FontAwesomeIcon icon={faBars} className="text-2xl" />
       </div>
       {/* Logo */}
       <Link href={"/"}>
-        <div className=" text-2xl text-red-400 font-semibold dark:text-lime-200 basis-2/4 text-center drop-shadow-lg">
-          AniAni
+        <div className="basis-2/4 drop-shadow-lg w-24 h-12">
+          <Image src={"/assets/images/logo.png"} alt="OniAnime" fill />
         </div>
       </Link>
       {/* Navigation */}
@@ -112,19 +108,48 @@ const Header = () => {
                   : "hidden"
               }`}
             >
-              {users.map((user, index) => (
-                <div
-                  className="w-36 dark:text-lime-200 hover:text-gray-600"
-                  key={index}
-                >
-                  <Link href={user.path}>
-                    <span className=" pr-3">
-                      <FontAwesomeIcon icon={user.icon} />
-                    </span>
-                    {user.name}
+              {!isSignIn ? (
+                <>
+                  <Link href={"/account"}>
+                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                      <span className="pr-3">
+                        <FontAwesomeIcon icon={faUser} />
+                      </span>
+                      [Username]
+                    </div>
                   </Link>
-                </div>
-              ))}
+                  <Link href={"/playlist"}>
+                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                      <span className="pr-3">
+                        <FontAwesomeIcon icon={faListUl} />
+                      </span>
+                      Playlist
+                    </div>
+                  </Link>
+                  <Link href={"/"}>
+                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                      <span className="pr-3">
+                        <FontAwesomeIcon icon={faRightToBracket} />
+                      </span>
+                      Đăng xuất
+                    </div>
+                  </Link>
+                </>
+              ) : (
+                users.map((user, index) => (
+                  <div
+                    className="w-36 dark:text-lime-200 hover:text-gray-600"
+                    key={index}
+                  >
+                    <Link href={user.path}>
+                      <span className=" pr-3">
+                        <FontAwesomeIcon icon={user.icon} />
+                      </span>
+                      {user.name}
+                    </Link>
+                  </div>
+                ))
+              )}
               {/* Mode */}
               <div className="flex items-center">
                 <SwitchButton icon={faSun} />
