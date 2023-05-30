@@ -167,9 +167,9 @@ export const animes = [
 
 export const account = [
   {
-    name: "Avatar",
-    icon: faImage,
-    link: "/account/avatar",
+    name: "Thông tin",
+    icon: faUser,
+    link: "/account/info",
   },
   { name: "Bảo mật", icon: faLock, link: "/account/privacy" },
 ];

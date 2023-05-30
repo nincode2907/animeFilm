@@ -108,7 +108,8 @@ const Header = () => {
                   : "hidden"
               }`}
             >
-              {!isSignIn ? (
+              {/* Chỉnh isSignIn => !isSignIn để test */}
+              {isSignIn ? (
                 <>
                   <Link href={"/account"}>
                     <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
