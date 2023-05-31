@@ -173,3 +173,11 @@ export const account = [
   },
   { name: "Bảo mật", icon: faLock, link: "/account/privacy" },
 ];
+
+export const userAccount = {
+  name: "AcQuy666",
+  password: "123",
+  birth: "6/6/2016",
+  dateCreated: "6/6/2023",
+  avatar: "/assets/images/avatar.png",
+};

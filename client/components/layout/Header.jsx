@@ -14,6 +14,7 @@ import {
   faListUl,
 } from "@fortawesome/free-solid-svg-icons";
 import { useStateContext } from "@/context/ContextProvider";
+import { userAccount } from "@/pages/data";
 
 const SwitchButton = (props) => {
   return (
@@ -45,8 +46,14 @@ const SwitchButton = (props) => {
 };
 
 const Header = () => {
-  const { activeMenu, setActiveMenu, activeUser, setActiveUser, isSignIn } =
-    useStateContext();
+  const {
+    activeMenu,
+    setActiveMenu,
+    activeUser,
+    setActiveUser,
+    isSignIn,
+    setIsSignIn,
+  } = useStateContext();
 
   return (
     <div className="box-border h-12 w-full drop-shadow-lg shadow-lg flex items-center justify-around z-20 relative dark:bg-neutral-500 dark:shadow-md dark:shadow-lime-200">
@@ -96,11 +103,17 @@ const Header = () => {
             />
           </div>
           <div className="w-7 h-7 rounded-full outline-1 outline-gray-400 dark:outline-lime-200 outline flex justify-center items-center">
-            <FontAwesomeIcon
-              onClick={() => setActiveUser((prev) => !prev)}
-              icon={faUser}
-              className="text-gray-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
-            />
+            {isSignIn ? (
+              <div className="w-5 h-5 scale-100 rounded-full">
+                <Image src={userAccount.avatar} alt={userAccount.name} fill />
+              </div>
+            ) : (
+              <FontAwesomeIcon
+                onClick={() => setActiveUser((prev) => !prev)}
+                icon={faUser}
+                className="text-gray-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
+              />
+            )}
             <div
               className={`${
                 activeUser
@@ -111,12 +124,12 @@ const Header = () => {
               {/* Chỉnh isSignIn => !isSignIn để test */}
               {isSignIn ? (
                 <>
-                  <Link href={"/account"}>
+                  <Link href={"/account/info"}>
                     <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
                       <span className="pr-3">
                         <FontAwesomeIcon icon={faUser} />
                       </span>
-                      [Username]
+                      {userAccount.name}
                     </div>
                   </Link>
                   <Link href={"/playlist"}>
@@ -128,7 +141,10 @@ const Header = () => {
                     </div>
                   </Link>
                   <Link href={"/"}>
-                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                    <div
+                      onClick={() => setIsSignIn(false)}
+                      className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer"
+                    >
                       <span className="pr-3">
                         <FontAwesomeIcon icon={faRightToBracket} />
                       </span>

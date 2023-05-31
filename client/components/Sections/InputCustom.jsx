@@ -1,6 +1,6 @@
-import React from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { useId } from "react";
-const InputCustom = (prop) => {
+const InputCustom = forwardRef(function InputCustom(prop, ref) {
   const id = useId();
 
   return (
@@ -11,6 +11,7 @@ const InputCustom = (prop) => {
         placeholder=" "
         type={prop.type}
         required={prop.required}
+        ref={ref}
       />
       <label
         htmlFor={id}
@@ -20,6 +21,6 @@ const InputCustom = (prop) => {
       </label>
     </div>
   );
-};
+});
 
 export default InputCustom;

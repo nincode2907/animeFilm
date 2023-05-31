@@ -1,18 +1,21 @@
-import React from "react";
+import React, { use } from "react";
 import { faUser, faLock, faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { account } from "../data";
+import { userAccount } from "../data";
 import Link from "next/link";
-
+import Image from "next/image";
 const Account = ({ children }) => {
   return (
     <div className="md:mx-auto w-full md:w-11/12  min-h-screen bg-slate-100/50 dark:bg-slate-200/90 flex flex-col sm:flex-row">
       <div className="basis-1/5 flex sm:flex-col bg-yellow-500/40 dark:bg-lime-200">
         <div className="text-2xl basis-1/3 sm:basis-0 bg-yellow-500 dark:bg-lime-400 py-4 flex flex-col justify-center items-center transition duration-200 ease-linear">
           <div className="w-14 h-14 rounded-full bg-white flex justify-center items-center text-yellow-500 dark:text-lime-400 transition duration-200 ease-linear">
-            <FontAwesomeIcon icon={faUser} />
+            <div className="w-10 h-10 scale-100 rounded-full">
+              <Image src={userAccount.avatar} alt={userAccount.name} fill />
+            </div>
           </div>
-          <div className="text-center text-white">abc</div>
+          <div className="text-center text-white">{userAccount.name}</div>
         </div>
         <div className="basis-2/3 h-[8rem] sm:min-h-0 sm:basis-0 overflow-y-scroll sm:overflow-y-visible">
           {account.map((item, index) => {
