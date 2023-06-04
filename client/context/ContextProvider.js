@@ -7,7 +7,7 @@ const ContextProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [detailAnime, setDetailAnime] = useState({});
-  const [isSignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
   const [playlist, setPlaylist] = useState([]);
   const [addPlaylist, setAddPlaylist] = useState(false);
   useEffect(() => {

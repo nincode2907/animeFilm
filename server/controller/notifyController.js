@@ -9,7 +9,7 @@ const getAllNotification = (req, res) => {
 }
 
 const addNotification = (strongAction, action) => {
-    const now = new Date().toISOString();
+    let now = new Date().toISOString();
     const query = `INSERT INTO dbo.notify ([action], [strongOfAction], [time]) VALUES (N'${action}', N'${strongAction}', '${now}')`
 
     mssql.query(query)

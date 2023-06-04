@@ -10,8 +10,8 @@ const getAllEpisode = (req, res) => {
 }
 
 const getAllEpisodeWithFilm = (req, res) => {
-    let filmId = req.query.filmId
-    const query = 'SELECT e.id,e.name, number_set, e.created_at, linkEmbed, f.thurmUrl FROM film f, episode e WHERE f.id = e.film_id AND f.id =' + filmId
+    let filmId = req.query.filmID
+    const query = `SELECT e.id,e.name, number_set, e.created_at, linkEmbed, f.thurmUrl FROM film f, episode e WHERE f.id = e.film_id AND f.id = ${filmId} ORDER BY number_set`
 
     mssql.query(query)
         .then((result) => res.json(result.recordset))

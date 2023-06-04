@@ -146,10 +146,10 @@
               <li
                 class="breadcrumb-item text-sm text-dark active"
                 aria-current="page">
-                Episode Edit
+                Episode Preview
               </li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">Episode Edit</h6>
+            <h6 class="font-weight-bolder mb-0">Episode Preview</h6>
           </nav>
           <div
             class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"
@@ -215,7 +215,7 @@
                 class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div
                   class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center">
-                  <h6 class="text-white text-capitalize ps-3 me-auto">Edit Episode</h6>
+                  <h6 class="text-white text-capitalize ps-3 me-auto">Preview Episode</h6>
                   <span><a
                     class="btn btn-outline-white btn-sm mb-0 me-3"
                     href="./episode.html"
@@ -224,20 +224,18 @@
                 </div>
               </div>
               <div class="card-body px-0 pb-2">
-                <div class="table-responsive px-4 py-2">
-                  <form method="POST" role="form" id="episode-form" class="needs-validation" novalidate>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Input number set...</label>
-                      <input name="number_set" type="number" class="form-control" min="1"/>
-                    </div>
-                    <div class="input-group input-group-outline mb-3 is-filled">
-                      <label class="form-label">Input link embed...</label>
-                      <input name="link_embed" type="text" class="form-control"/>
-                    </div>
-                    <select id="select_form_film" name="film" class="form-select input-group-outline mb-3 px-2">
-                    </select>
-                    <button type="submit" class="btn btn-info">Update</button>
-                  </form>
+                <div class="table-responsive text-center px-4 py-2">
+                  <iframe 
+                  id="episode-view"
+                  src="" 
+                  frameborder="0" 
+                  marginwidth="0" 
+                  marginheight="0" 
+                  scrolling="no" 
+                  width="832" 
+                  height="468" 
+                  allowfullscreen>
+                </iframe>
                 </div>
               </div>
             </div>
@@ -447,7 +445,6 @@
       const sideBarTypes = document.querySelectorAll("#sidebar-types button")
       const navbarFixedCheckBox = document.getElementById("navbarFixed")
       const darkCheckBox = document.getElementById("dark-version")
-      const selectFormFilm = document.getElementById('select_form_film');
       const toastErrContent = document.querySelector("#dangerToast .toast-body")
 
       const urlParams = new URLSearchParams(window.location.search)
@@ -461,6 +458,7 @@
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
       
+      const player = document.getElementById('episode-view');
       const toast = document.getElementById("successToast");
       const errToast = document.getElementById("dangerToast");
       const notifications = document.getElementById('notify-list');
@@ -516,10 +514,6 @@
         errToast.classList.add("fade");
         errToast.classList.remove("show");
       };
-      // Lấy đối tượng form và các trường dữ liệu trong form
-      const form = document.getElementById("episode-form");
-      const numberSetInput = document.querySelector("input[name='number_set']");
-      const linkEmbedInput = document.querySelector("input[name='link_embed']"); 
 
       //Load data start
       window.addEventListener("load", async () => {
@@ -536,128 +530,66 @@
           navbarFixedCheckBox.click();
         if(animeMode['dark-mode'] == "dark") 
           darkCheckBox.click();
+          
         fetch("http://localhost:8000/api/episode/edit?id="+id)
           .then((response) => response.json())
-          .then(async (result) => {
-            numberSetInput.value = result.number_set
-            linkEmbedInput.value = result.linkEmbed
-            fetch("http://localhost:8000/api/film/")
-              .then((response) => response.json())
-              .then((films) => {
-                let html ='<option>Select the film</option>';
-                films.forEach((f) => {
-                  if(f.id === result.film_id)  html += `<option value='${f.id}' selected>${f.filmName}</option>`
-                  else  html += `<option value='${f.id}'>${f.filmName}</option>`
-                });
-                selectFormFilm.innerHTML = html;
-                fetch("http://localhost:8000/api/notify/")
-                .then((response) => response.json())
-                .then((notifies) => {
-                  let html1 = "";
-                  notifies.forEach((n,i) => {
-                    const timeNotify = new Date(n.time);
-                    const timeDiff = calculationTimeDiff(timeNotify)
-                    const classLi = (i != notifies.length - 1 ? 'mb-2' : '')
-                    let iconAction = '';
-                    if(n.action.includes('created'))
-                      iconAction = 'create'
-                    else if(n.action.includes('updated'))
-                      iconAction = 'update'
-                    else 
-                      iconAction = 'delete';
-                    html1 += `<li class="${classLi}">
-                              <a
-                                class="dropdown-item border-radius-md"
-                                href="javascript:;">
-                                <div class="d-flex py-1">
-                                  <div class="my-auto me-3">
-                                    <i class="material-icons text-3xl">${iconAction}</i>
-                                  </div>
-                                  <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="text-sm font-weight-normal mb-1">
-                                      <span class="font-weight-bold">${n.strongOfAction}</span>
-                                      ${n.action}
-                                    </h6>
-                                    <p class="text-xs text-secondary mb-0">
-                                      <i class="fa fa-clock me-1"></i>
-                                      ${timeDiff}
-                                    </p>
-                                  </div>
-                                </div>
-                              </a>
-                            </li>`;
-                  });
-                  notifications.innerHTML = html1;
-                })
-              })
-              .catch(err => {
-                toastErrContent.innerHTML = "An error occurred while connecting to the server";
-                showErrToast();
-                setTimeout(() => {
-                  hideErrToast();
-                }, 2000)
-              })
-            })
-            .catch(err => {
+          .then ((episode) => {
+            player.setAttribute('src', episode.linkEmbed)
+          })
+          .catch(err => {
             toastErrContent.innerHTML = "An error occurred while connecting to the server";
               showErrToast();
               setTimeout(() => {
                 hideErrToast();
               }, 2000)
           })
-      });
-      
-
-      // Thêm sự kiện submit cho form
-      form.addEventListener("submit", (event) => {
-        // Ngăn chặn hành động mặc định của form
-        event.preventDefault();
-
-         // Hiển thị hộp thoại xác nhận
-        const result = confirm("Are you sure you want to update this episode?");
-        if(result) {
-          // Lấy giá trị của các trường dữ liệu
-          const numberSet = numberSetInput.value;
-          const linkEmbed =  linkEmbedInput.value;
-          const filmId = selectFormFilm.value;
-          const selectedOption = selectFormFilm.options[selectFormFilm.selectedIndex];
-          const filmName = selectedOption.text;
-  
-          // Tạo đối tượng dữ liệu để gửi đến API
-          const data = {id,
-            numberSet,
-            linkEmbed,
-            filmId,
-            filmName
-          };
-  
-          // Gửi yêu cầu POST đến API
-          fetch("http://localhost:8000/api/episode/edit", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-          })
-            .then(response => response.json())
-            .then(data => {
-              showToast();
-              setTimeout(() => {
-                hideToast();
-              }, 2000)
-              setTimeout(() => {
-                window.location = './episode.html'
-              }, 2100)
-            })
-            .catch(error => {
-              toastErrContent.innerHTML = "You have fail to updated this film.";
-              showErrToast();
-              setTimeout(() => {
-                hideErrToast();
-              }, 2000)
-            });
-        }
-      });
+        fetch("http://localhost:8000/api/notify/")
+        .then((response) => response.json())
+        .then((notifies) => {
+          let html1 = "";
+          notifies.forEach((n,i) => {
+            const timeNotify = new Date(n.time);
+            const timeDiff = calculationTimeDiff(timeNotify)
+            const classLi = (i != notifies.length - 1 ? 'mb-2' : '')
+            let iconAction = '';
+            if(n.action.includes('created'))
+              iconAction = 'create'
+            else if(n.action.includes('updated'))
+              iconAction = 'update'
+            else 
+              iconAction = 'delete';
+            html1 += `<li class="${classLi}">
+                      <a
+                        class="dropdown-item border-radius-md"
+                        href="javascript:;">
+                        <div class="d-flex py-1">
+                          <div class="my-auto me-3">
+                            <i class="material-icons text-3xl">${iconAction}</i>
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="text-sm font-weight-normal mb-1">
+                              <span class="font-weight-bold">${n.strongOfAction}</span>
+                              ${n.action}
+                            </h6>
+                            <p class="text-xs text-secondary mb-0">
+                              <i class="fa fa-clock me-1"></i>
+                              ${timeDiff}
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    </li>`;
+          });
+          notifications.innerHTML = html1;
+        })
+      })
+      .catch(err => {
+        toastErrContent.innerHTML = "An error occurred while connecting to the server";
+        showErrToast();
+        setTimeout(() => {
+          hideErrToast();
+        }, 2000)
+      })
     </script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-dashboard.min.js?v=3.0.5"></script>

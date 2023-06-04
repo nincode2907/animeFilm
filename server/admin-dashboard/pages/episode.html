@@ -213,7 +213,9 @@
                 class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div
                   class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center">
-                  <h6 class="text-white text-capitalize ps-3 me-auto">Episode table</h6>
+                  <h6 class="text-white text-capitalize ps-3 me-2">Episode table</h6>
+                  <select id="film-select" class="px-3 me-auto form-select text-white" style="max-width: 300px">
+                  </select>                  
                   <span><a
                     class="btn btn-outline-white btn-sm mb-0 me-3"
                     href="./episodeCreate.html"
@@ -230,6 +232,7 @@
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ms-4">
                           Film
+                          <!-- <i class="material-icons opacity-10 edit_icons">edit</i> -->
                         </th>
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -457,8 +460,9 @@
       const sideBarTypes = document.querySelectorAll("#sidebar-types button")
       const navbarFixedCheckBox = document.getElementById("navbarFixed")
       const darkCheckBox = document.getElementById("dark-version")
-      const episodeList = document.querySelector('#episodes tbody')
       const toastErrContent = document.querySelector("#dangerToast .toast-body")
+      const episodeList = document.querySelector('#episodes tbody')
+      const filmSelect = document.getElementById('film-select')
 
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -554,6 +558,8 @@
         }
       }
 
+      const episodeArr = []
+
       window.addEventListener("load", () => {
         let animeMode = JSON.parse(localStorage.getItem('ani-admin-mode'));
         badgeColors.forEach((b) => {
@@ -568,11 +574,23 @@
           navbarFixedCheckBox.click();
         if(animeMode['dark-mode'] == "dark") 
           darkCheckBox.click();
+
+        fetch("http://localhost:8000/api/film/")
+          .then((response) => response.json())
+          .then((films) => {
+            let htmlF = '<option value="">--Choose film</option>'
+            films.forEach(f => {
+              htmlF += `<option value="${f.filmName}" class="text-dark">${f.filmName}</option>`
+            })
+            htmlF += `<option value="all" class="text-dark">All</option>`
+            filmSelect.innerHTML = htmlF
+          })
         fetch("http://localhost:8000/api/episode/")
           .then((response) => response.json())
           .then((result) => {
             let html = "";
             result.forEach((e) => {
+              episodeArr.push(e);
               const timeCreated = new Date(e.created_at);
               const formattedDate = `${timeCreated.getDate()}-${timeCreated.getMonth()+1}-${timeCreated.getFullYear()} ${timeCreated.getHours()}:${timeCreated.getMinutes()}:${timeCreated.getSeconds()}`;
               html += `<tr>
@@ -592,10 +610,17 @@
                         </td>
                         <td class="align-middle text-center"> 
                           <a
+                            href="./episodePreview.html?id=${e.id}" 
+                            class="text-secondary font-weight-bold"
+                            data-toggle="tooltip"
+                            data-original-title="Play Preview">
+                            <i class="material-icons opacity-10 edit_icons">play_arrow</i>
+                          </a>
+                          <a
                             href="./episodeEdit.html?id=${e.id}" 
                             class="text-secondary font-weight-bold text-xs mx-3"
                             data-toggle="tooltip"
-                            data-original-title="Edit user">
+                            data-original-title="Edit episode">
                             <i class="material-icons opacity-10 edit_icons">edit</i>
                           </a>
                           <a
@@ -603,7 +628,7 @@
                             class="text-secondary font-weight-bold text-xs"
                             data-toggle="tooltip"
                             onclick="handleDelete(event)"
-                            data-original-title="Delete user">
+                            data-original-title="Delete episode">
                             <i class="material-icons opacity-10 delete_icons" data=${e.id}>delete</i>
                           </a>
                         </td>
@@ -657,6 +682,63 @@
                 hideErrToast();
               }, 2000)
           })
+        });
+        filmSelect.addEventListener('change', (e) => {
+          let htmlFill = ''
+          let filmNeedF = e.target.value
+          let episodeFilled;
+          if(filmNeedF === 'all') {
+            episodeFilled = episodeArr;
+          } else {
+            episodeFilled = episodeArr.filter((f) => {
+              return f.filmName === filmNeedF
+            })
+          }
+          episodeFilled.forEach((e) => {
+            const timeCreated = new Date(e.created_at);
+            const formattedDate = `${timeCreated.getDate()}-${timeCreated.getMonth()+1}-${timeCreated.getFullYear()} ${timeCreated.getHours()}:${timeCreated.getMinutes()}:${timeCreated.getSeconds()}`;
+            htmlFill += `<tr>
+                          <td>
+                              <div class="px-3">
+                                <img
+                                  src="${e.thurmUrl}"
+                                  class="avatar avatar-lg rounded-3 me-2"
+                                  alt="${e.name}" />
+                              </div>
+                          </td>
+                          <td>
+                            <h6 class="text-sm font-weight-bold mb-0">${e.filmName} tập ${e.number_set}</h6>
+                          </td>
+                          <td>
+                            <p class="text-sm font-weight-bold mb-0">${formattedDate}</p>
+                          </td>
+                          <td class="align-middle text-center"> 
+                            <a
+                              href="./episodePreview.html?id=${e.id}" 
+                              class="text-secondary font-weight-bold"
+                              data-toggle="tooltip"
+                              data-original-title="Play Preview">
+                              <i class="material-icons opacity-10 edit_icons">play_arrow</i>
+                            </a>
+                            <a
+                              href="./episodeEdit.html?id=${e.id}" 
+                              class="text-secondary font-weight-bold text-xs mx-3"
+                              data-toggle="tooltip"
+                              data-original-title="Edit episode">
+                              <i class="material-icons opacity-10 edit_icons">edit</i>
+                            </a>
+                            <a
+                              href="javascript:;"
+                              class="text-secondary font-weight-bold text-xs"
+                              data-toggle="tooltip"
+                              onclick="handleDelete(event)"
+                              data-original-title="Delete episode">
+                              <i class="material-icons opacity-10 delete_icons" data=${e.id}>delete</i>
+                            </a>
+                          </td>
+                        </tr>`;
+          })
+          episodeList.innerHTML = htmlFill;
         });
     </script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->

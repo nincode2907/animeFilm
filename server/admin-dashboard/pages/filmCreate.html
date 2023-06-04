@@ -269,8 +269,8 @@
                       <input name="episodeTotal" type="number" class="form-control" min="0" max="9999"/>
                     </div>
                     <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input debut year...</label>
-                      <input id="year-debut-input" name="debutYear" type="number" class="form-control" min="1800" max=""/>
+                      <!-- <label class="form-label">Input debut year...</label> -->
+                      <input id="released-input" name="released" type="date" class="form-control" min="1800-01-01" max="2023-06-03"/>
                     </div>
                     <select id="select_form_country" name="country" class="form-select input-group-outline mb-3 px-2">
                     </select>
@@ -499,9 +499,12 @@
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
 
-      const yearInput = document.getElementById("year-debut-input");
-      const currentYear = new Date().getFullYear();
-      yearInput.setAttribute("max", currentYear);
+      const releasedInput = document.getElementById("released-input");
+      let currentDay = new Date();
+      currentDay.setDate(currentDay.getDate() + 1);
+      currentDay = currentDay.toISOString().split('T')[0];
+      releasedInput.setAttribute("max", currentDay);
+      
 
       const toast = document.getElementById("successToast");
       const errToast = document.getElementById("dangerToast");
@@ -653,35 +656,37 @@
         const result = confirm("Are you sure you want to update this episode?");
         if(result)  {
           // Lấy giá trị của các trường dữ liệu
-          const filmName = nameInput.value;
-          const originName = originNameInput.value;
+          const filmName = nameInput.value.trim();
+          const originName = originNameInput.value.trim();
           const status =  statusInput.checked;
-          const thumbUrl =  thumbUrlInput.value;
-          const trailerUrl =  trailerUrlInput.value;
-          const posterUrl =  posterUrlInput.value;
+          const thumbUrl =  thumbUrlInput.value.trim();
+          const trailerUrl =  trailerUrlInput.value.trim();
+          const posterUrl =  posterUrlInput.value.trim();
           const episodeTotal =  episodeTotalInput.value;
-          const timeUNE =  timeUNEInput.value;
-          const debutYear =  yearInput.value;
-          const slug =  slugInput.value;
-          const director =  directorInput.value;
+          const timeUNE =  timeUNEInput.value.trim();
+          const released =  releasedInput.value;
+          const slug =  slugInput.value.trim();
+          const director =  directorInput.value.trim();
           const country = selectFormCountry.value;
-          const description = descriptionInput.value;
+          const description = descriptionInput.value.trim();
           // Tạo đối tượng dữ liệu để gửi đến API
+          console.log(releasedInput.value);
           const data = {
-            filmName: filmName,
-            originName: originName,
-            status :status,
-            thumbUrl :thumbUrl,
-            trailerUrl :trailerUrl,
-            posterUrl :posterUrl,
-            episodeTotal :episodeTotal,
-            timeUNE :timeUNE,
-            debutYear :debutYear,
-            slug :slug,
-            director :director,
-            country :country,
-            description : description
+            filmName,
+            originName,
+            status,
+            thumbUrl,
+            trailerUrl,
+            posterUrl,
+            episodeTotal,
+            timeUNE,
+            released,
+            slug,
+            director,
+            country,
+            description
           };
+
   
           // Gửi yêu cầu POST đến API
           fetch("http://localhost:8000/api/film/create", {

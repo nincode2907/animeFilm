@@ -25,7 +25,7 @@ const createFilm = (req, res) => {
         ,[episodeCurrent]
         ,[episodeTotal]
         ,[timeUNE]
-        ,[debutYear]
+        ,[released]
         ,[viewCount]
         ,[slug]
         ,[director]
@@ -41,15 +41,17 @@ const createFilm = (req, res) => {
         0, 
         ${episodeTotal}, 
         N'${data.timeUNE}', 
-        ${data.debutYear},  
+        '${data.released}',  
         0, 
         '${data.slug}',  
         N'${data.director}', 
         ${data.country},
         N'${data.description}'
     )`
+
     mssql.query(query)
         .then((result) => {
+            console.log("oke")
             addNotification(`${data.filmName} film`, 'was created')
             res.json(result.rowsAffected)
         })
@@ -58,7 +60,7 @@ const createFilm = (req, res) => {
 
 const getFilmEdit = (req, res) => {
     const id = req.query.id
-    const query = 'SELECT filmName, originName, status, thurmUrl, trailerUrl, posterUrl, episodeCurrent, episodeTotal, timeUNE, debutYear, slug, director , country , description  FROM film  where id = ' + id 
+    const query = 'SELECT filmName, originName, status, thurmUrl, trailerUrl, posterUrl, episodeCurrent, episodeTotal, timeUNE, released, slug, director , country , description  FROM film  where id = ' + id 
 
     mssql.query(query)
         .then((result) => res.json(result.recordset[0]))
@@ -68,6 +70,8 @@ const getFilmEdit = (req, res) => {
 const updateFilm = (req, res) => {
     const data = req.body
     const status = data.status ? 1 : 0
+    const episodeTotal = data.episodeTotal ? data.episodeTotal : null
+    console.log(data);
     const query = `UPDATE [dbo].[film]
     SET [filmName] = N'${data.filmName}'
        ,[originName] = N'${data.originName}'
@@ -75,10 +79,9 @@ const updateFilm = (req, res) => {
        ,[thurmUrl] = '${data.thumbUrl}'
        ,[trailerUrl] = '${data.trailerUrl}'
        ,[posterUrl] = '${data.posterUrl}'
-       ,[episodeCurrent] = ${data.episodeCurrent}
-       ,[episodeTotal] = ${data.episodeTotal}
+       ,[episodeTotal] = ${episodeTotal}
        ,[timeUNE] = N'${data.timeUNE}'
-       ,[debutYear] = ${data.debutYear}
+       ,[released] = '${data.released}'
        ,[slug] = '${data.slug}'
        ,[director] = N'${data.director}'
        ,[country] = ${data.country}
@@ -98,7 +101,7 @@ const deleteFilm = (req, res) => {
   
     mssql.query(query)
         .then((result) => {
-            addNotification('A film', 'was updated')
+            addNotification('A film', 'was deleted')
             res.json(result.rowsAffected)
         })
         .catch((err) => res.json('Have an error: ' + err.message))
