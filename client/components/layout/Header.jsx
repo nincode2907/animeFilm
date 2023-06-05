@@ -104,7 +104,10 @@ const Header = () => {
           </div>
           <div className="w-7 h-7 rounded-full outline-1 outline-gray-400 dark:outline-lime-200 outline flex justify-center items-center">
             {isSignIn ? (
-              <div className="w-5 h-5 scale-100 rounded-full">
+              <div
+                className="w-5 h-5 scale-100 rounded-full cursor-pointer"
+                onClick={() => setActiveUser((prev) => !prev)}
+              >
                 <Image src={userAccount.avatar} alt={userAccount.name} fill />
               </div>
             ) : (

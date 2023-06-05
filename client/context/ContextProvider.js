@@ -7,9 +7,11 @@ const ContextProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [detailAnime, setDetailAnime] = useState({});
-  const [isSignIn, setIsSignIn] = useState(true);
+  const [isSignIn, setIsSignIn] = useState(false);
   const [playlist, setPlaylist] = useState([]);
   const [addPlaylist, setAddPlaylist] = useState(false);
+  const [video, setVideo] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("anime-mode") === null) {
       localStorage.setItem("anime-mode", false);
@@ -45,6 +47,8 @@ const ContextProvider = ({ children }) => {
         setPlaylist,
         addPlaylist,
         setAddPlaylist,
+        video,
+        setVideo,
       }}
     >
       {children}
