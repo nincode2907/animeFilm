@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <title>OniAnime</title>
         <link
           rel="shortcut icon"
           href="/assets/images/favicon.png"

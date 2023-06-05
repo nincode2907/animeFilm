@@ -71,7 +71,7 @@ const Genre = () => {
   }, []);
 
   return (
-    <div className="md:mx-auto md:w-4/5 w-full drop-shadow-lg box-border">
+    <div className="md:mx-auto md:w-4/5 w-full drop-shadow-lg box-border min-h-screen">
       <div className="min-h-fit my-4 rounded-lg">
         <Slider {...settings}>
           {allGenre.map((item, index) => (
@@ -94,40 +94,48 @@ const Genre = () => {
         </div>
       </div>
       <div className="shadow-infull dark:shadow-lime-200 dark:bg-transparent bg-slate-100 shadow-yellow-500 rounded-lg mb-4 py-4">
-        {animes
-          .filter((anime) => anime.genres.includes(genres))
-          .map((item, index) => {
-            return (
-              <Link
-                href={`/anime/${item.name}`}
-                className="inline-block w-1/2 sm:w-1/4 md:w-1/5 lg:w-1/6 text-center p-4"
-              >
-                <div
-                  className="flex flex-col items-center drop-shadow-xl sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[15rem] relative"
-                  key={index}
+        {animes.filter((anime) => anime.genres.includes(genres)).length ===
+        0 ? (
+          <div className="text-center dark:text-lime-200">
+            Hiện chưa cập nhật anime thuộc thể loại này
+          </div>
+        ) : (
+          // cần tối ưu 2 vòng lặp
+          animes
+            .filter((anime) => anime.genres.includes(genres))
+            .map((item, index) => {
+              return (
+                <Link
+                  href={`/anime/${item.name}`}
+                  className="inline-block w-1/2 sm:w-1/4 md:w-1/5 lg:w-1/6 text-center p-4"
                 >
-                  <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="rounded-lg"
-                    />
-                    <div className="absolute top-3 right-3 w-10 h-10 bg-gray-500/80 text-yellow-300/80 flex items-center justify-center rounded-full">
-                      {item.rating}
-                    </div>
-                  </div>
                   <div
-                    className="dark:text-lime-200 group-hover:font-bold group-hover:text-red-600 dark:group-hover:text-yellow-500  group-hover:drop-shadow-xl 
+                    className="flex flex-col items-center drop-shadow-xl sm:justify-center rounded-lg transition duration-500 ease-linear group w-full min-h-[15rem] relative"
+                    key={index}
+                  >
+                    <div className="relative min-h-fit w-40 h-64 rounded-lg cursor-pointer">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="rounded-lg"
+                      />
+                      <div className="absolute top-3 right-3 w-10 h-10 bg-gray-500/80 text-yellow-300/80 flex items-center justify-center rounded-full">
+                        {item.rating}
+                      </div>
+                    </div>
+                    <div
+                      className="dark:text-lime-200 group-hover:font-bold group-hover:text-red-600 dark:group-hover:text-yellow-500  group-hover:drop-shadow-xl 
                     w-40 whitespace-nowrap overflow-hidden text-ellipsis text-center mt-2
                     "
-                  >
-                    {item.name}
+                    >
+                      {item.name}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })
+        )}
       </div>
     </div>
   );
