@@ -1,107 +1,108 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Slider from "react-slick";
 import { animes } from "@/pages/data";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { useStateContext } from "@/context/ContextProvider";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faFilm,
+  faStar,
+  faVideoCamera,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const SlideShow = (props) => {
+  const [indexSlide, setIndexSlide] = useState(0);
+  const timeInterval = useRef();
   const slide = useRef();
-  const { detailAnime, setDetailAnime } = useStateContext();
 
-  const settings = {
-    dots: false,
-    slidesToShow: props.size,
-    slidesToScroll: 1,
-    className: "center ",
-    centerMode: true,
-    infinite: true,
-    speed: 500,
-    arrows: false,
-    adaptiveHeight: true,
-    responsive: [
-      {
-        breakpoint: 1250,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          vertical: true,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          vertical: true,
-        },
-      },
-    ],
+  useEffect(() => {
+    timeInterval.current = setInterval(() => {
+      setIndexSlide((prev) => (prev === props.items.length - 1 ? 0 : ++prev));
+    }, 4000);
+    return () => {
+      clearInterval(timeInterval.current);
+    };
+  }, []);
+
+  const prevSlide = () => {
+    const isFirst = indexSlide === 0;
+    const prev = isFirst ? props.items.length - 1 : indexSlide - 1;
+    setIndexSlide(prev);
+  };
+
+  const nextSlide = () => {
+    const isLast = indexSlide === props.items.length - 1;
+    const next = isLast ? 0 : indexSlide + 1;
+    setIndexSlide(next);
   };
 
   return (
-    <div className="min-h-full md:bg-gray-100 md:dark:bg-neutral-500 md:rounded-lg my-4 py-4 px-2 md:dark:shadow-infull md:dark:shadow-lime-200">
-      <div className="relative">
-        <Slider {...settings} ref={slide}>
-          {props.items.map((item, index) => (
-            <Link href={`/anime/${item.name}`}>
-              <div
-                className="!flex !flex-col !items-center sm:!justify-center rounded-lg opacity-70 hover:opacity-100
-            transition duration-500 ease-linear group w-full min-h-[24rem] relative"
-                key={index}
-              >
-                <div className="relative min-h-fit w-40 h-64 hover:drop-shadow-2xl shadow-full shadow-yellow-500 dark:shadow-lime-200 rounded-lg">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="rounded-lg cursor-pointer"
-                  />
-                  <div className="absolute top-3 right-3 w-10 h-10 bg-gray-500/80 text-yellow-300/80 flex items-center justify-center rounded-full">
-                    {item.rating}
-                  </div>
-                </div>
-                <div
-                  className="dark:text-lime-200 group-hover:font-bold group-hover:text-yellow-400 group-hover:drop-shadow-xl group-hover:drop-shadow-yellow-400
-                w-40 whitespace-nowrap overflow-hidden text-ellipsis text-center pt-3
-                "
-                >
-                  {item.name}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </Slider>
+    <div className="h-96 overflow-hidden relative group md:bg-gray-300/50 md:dark:bg-neutral-500/30 md:rounded-lg my-4 py-4 md:dark:shadow-infull md:dark:shadow-lime-200">
+      <div className="relative flex h-full w-11/12 mx-auto  ">
         <div
-          className="absolute left-2 top-1/2 -translate-y-1/2 text-2xl text-gray-400 dark:text-lime-200 w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
-          onClick={() => slide.current.slickPrev()}
-        >
-          <FontAwesomeIcon icon={faAngleLeft} />
+          style={{
+            backgroundImage: `url(${props.items[indexSlide].poster})`,
+          }}
+          className="absolute drop-shadow-xl rounded-md top-0 bottom-0 left-0 right-0 opacity-50 h-full w-full bg-no-repeat bg-cover bg-center bg-transparent duration-500 "
+        ></div>
+        <div className="md:basis-1/2  relative flex flex-col gap-4 rounded-tl-md rounded-bl-md bg-black/50 h-full py-4 px-3 text-amber-500 dark:text-lime-400">
+          <div className="text-2xl font-semibold">
+            {props.items[indexSlide].name}
+          </div>
+          <div className="flex gap-4">
+            <div className="">
+              <FontAwesomeIcon icon={faStar} className="mr-2" />
+              {props.items[indexSlide].rating}
+            </div>
+            <div className="">
+              <FontAwesomeIcon icon={faFilm} className="mr-2" />
+              {props.items[indexSlide].currentEpisodes.length /
+                props.items[indexSlide].totalEpisodes ===
+              1
+                ? "Hoàn thành"
+                : props.items[indexSlide].currentEpisodes.length +
+                  "/" +
+                  props.items[indexSlide].totalEpisodes}
+            </div>
+            <div className="">
+              <FontAwesomeIcon icon={faVideoCamera} className="mr-2" />
+              {props.items[indexSlide].release}
+            </div>
+          </div>
+          <div className="border-y-2 border-x-none border-amber-500 dark:border-lime-400 lg:py-5 py-3 px-2 overflow-y-auto xl:overflow-hidden">
+            {props.items[indexSlide].description}
+          </div>
+          <div className="">
+            Thể loại:{" "}
+            <span className="ml-2">
+              {props.items[indexSlide].genres.slice(1).map((item, index) => {
+                return props.items[indexSlide].genres.slice(1).indexOf(item) ===
+                  0
+                  ? item
+                  : ", " + item;
+              })}
+            </span>
+          </div>
+          <Link href={`/anime/${props.items[indexSlide].name}`}>
+            <div className="bg-amber-500 dark:bg-lime-400 text-white font-semibold text-lg w-40 text-center rounded-md py-3">
+              <FontAwesomeIcon icon={faPlay} className="mr-2" /> Xem phim
+            </div>
+          </Link>
         </div>
-        <div
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-2xl text-gray-400 dark:text-lime-200 w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
-          onClick={() => slide.current.slickNext()}
-        >
-          <FontAwesomeIcon icon={faAngleRight} />
-        </div>
+      </div>
+      <div
+        className="absolute left-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-amber-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
+        onClick={() => prevSlide()}
+      >
+        <FontAwesomeIcon icon={faAngleLeft} />
+      </div>
+      <div
+        className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-amber-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
+        onClick={() => nextSlide()}
+      >
+        <FontAwesomeIcon icon={faAngleRight} />
       </div>
     </div>
   );

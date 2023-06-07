@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
@@ -73,7 +72,8 @@ const Genre = () => {
   return (
     <div className="md:mx-auto md:w-4/5 w-full drop-shadow-lg box-border min-h-screen">
       <div className="min-h-fit my-4 rounded-lg">
-        <Slider {...settings}>
+        {/* need Optimize */}
+        {/* <Slider {...settings}>
           {allGenre.map((item, index) => (
             <div
               className="flex items-center justify-center cursor-pointer text-white px-4 py-3 bg-yellow-500 dark:bg-lime-400 hover:opacity-80"
@@ -83,7 +83,7 @@ const Genre = () => {
               <div className="text-center">{item}</div>
             </div>
           ))}
-        </Slider>
+        </Slider> */}
       </div>
       <div className="text-white flex items-center justify-center my-4 cursor-pointer hover:opacity-90">
         <div
