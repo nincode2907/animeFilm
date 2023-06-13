@@ -2,11 +2,29 @@ const mssql = require('../db.js')
 const {addNotification} = require('./notifyController.js')
 
 const getAllFilm = (req, res) => {
-    const query = 'SELECT f.id, filmName, originName, thurmUrl,slug,  status, episodeCurrent, episodeTotal, countryName FROM film f, country c where f.country = c.id'
-
+    const query = 'SELECT f.id, filmName, originName, thurmUrl, posterUrl ,slug ,  status, episodeCurrent, episodeTotal, released, countryName FROM film f, country c where f.country = c.id'
+    
     mssql.query(query)
-        .then((result) => res.json(result.recordset))
-        .catch((err) => res.json('Have an error: ' + err.message))
+        .then(async (result) => {
+            let films = result.recordset
+            const filmsPromise = films.map(f => {
+                    let queryCate = 'SELECT categoryName FROM film_category fc, category c WHERE fc.categoryId = c.id AND fc.filmId = ' + f.id
+                    
+                    return mssql.query(queryCate)
+                        .then((categoriesRes) =>{
+                            let categories = categoriesRes.recordset.map(c => c.categoryName)
+                            f.slug = f.slug.trim()
+                            f.rated = (Math.random() * 10).toFixed(1)
+                            f.categories = categories
+                            return f
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                          });
+            })
+            return Promise.all(filmsPromise)
+        })
+        .then((films) => res.json(films))   
 }
 
 
