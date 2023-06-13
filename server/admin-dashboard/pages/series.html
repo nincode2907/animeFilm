@@ -74,9 +74,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link text-white active bg-gradient-primary"
-              href="../pages/film.html">
+            <a class="nav-link text-white" href="../pages/film.html">
               <div
                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">movie</i>
@@ -94,7 +92,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="../pages/series.html">
+            <a class="nav-link  text-white active bg-gradient-primary" href="../pages/series.html">
               <div
                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">subscriptions</i>
@@ -103,7 +101,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="../pages/category.html">
+            <a
+              class="nav-link text-white"
+              href="../pages/category.html">
               <div
                 class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">category</i>
@@ -155,10 +155,10 @@
               <li
                 class="breadcrumb-item text-sm text-dark active"
                 aria-current="page">
-                Film Create
+                Series
               </li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">Film Create</h6>
+            <h6 class="font-weight-bolder mb-0">Series</h6>
           </nav>
           <div
             class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"
@@ -170,6 +170,14 @@
               </div>
             </div>
             <ul class="navbar-nav justify-content-end">
+              <!-- <li class="nav-item d-flex align-items-center">
+                <a
+                  class="btn btn-outline-primary btn-sm mb-0 me-3"
+                  target="_blank"
+                  href="https://www.creative-tim.com/builder?ref=navbar-material-dashboard"
+                  >Online Builder</a
+                >
+              </li> -->
               <li class="nav-item d-flex align-items-center">
                 <a
                   href="../pages/sign-in.html"
@@ -221,78 +229,39 @@
           <div class="col-12">
             <div class="card my-4">
               <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div
-                  class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center">
-                  <h6 class="text-white text-capitalize ps-3 me-auto">Create Film</h6>
-                  <span><a
-                    class="btn btn-outline-white btn-sm mb-0 me-3"
-                    href="./film.html"
-                    >Back to list</a
-                  ></span>
-                </div>
+              class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center">
+                <h6 class="text-white text-capitalize ps-3 me-auto">Series</h6>
+                <span><a
+                  class="btn btn-outline-white btn-sm mb-0 me-3"
+                  href="./seriesCreate.html"
+                  >Create New Series</a
+                ></span>
               </div>
+            </div>
               <div class="card-body px-0 pb-2">
-                <div class="table-responsive px-4 py-2">
-                  <form method="POST" role="form" id="film-form">
-                      <div class="input-group input-group-outline mb-3 col-6">
-                        <label class="form-label">Input name...</label>
-                        <input name="name" type="text" class="form-control" />
-                      </div>
-                      <div class="input-group input-group-outline mb-3 col-6">
-                        <label class="form-label">Input origin name...</label>
-                        <input name="originName" type="text" class="form-control" />
-                      </div>
-                      <div class="form-check ps-0">
-                        <input name="status" class="form-check-input" type="checkbox" id="statusChecker">
-                        <label class="form-check-label" for="statusChecker">
-                          Status
-                        </label>
-                      </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input link thumbnail...</label>
-                      <input name="thumbUrl" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input link poster...</label>
-                      <input name="posterUrl" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input link trailer...</label>
-                      <input name="trailerUrl" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input time update new episode...</label>
-                      <input name="timeUNE" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input slug...</label>
-                      <input name="slug" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input director...</label>
-                      <input name="director" type="text" class="form-control" />
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input total episode...</label>
-                      <input name="episodeTotal" type="number" class="form-control" min="0" max="9999"/>
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Input part film...</label>
-                      <input name="part" type="text" class="form-control"/>
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                      <input id="released-input" name="released" type="date" class="form-control" min="1800-01-01" max="2023-06-03"/>
-                    </div>
-                    <select id="select_form_series_film" name="series" class="form-select input-group-outline mb-3 px-2">
-                    </select>
-                    <select id="select_form_country" name="country" class="form-select input-group-outline mb-3 px-2">
-                    </select>
-                    <div class="input-group input-group-outline mb-3">
-                      <textarea name="description" class="form-control" placeholder="Input description..." rows="4"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-info">Create</button>
-                  </form>
+                <div class="table-responsive p-0">
+                  <table id="series" class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          STT
+                        </th>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                          Name
+                        </th>
+                        <th
+                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -307,8 +276,8 @@
             aria-atomic="true">
             <div class="toast-header border-0">
               <i class="material-icons text-success me-2"> check </i>
-              <span class="me-auto font-weight-bold"> Successfully </span>
-              <small class="text-body">now</small>
+              <span class="me-auto font-weight-bold">Successfully</span>
+              <small class="text-body">11 mins ago</small>
               <i
                 class="fas fa-times text-md ms-3 cursor-pointer"
                 data-bs-dismiss="toast"
@@ -316,33 +285,31 @@
             </div>
             <hr class="horizontal dark m-0" />
             <div class="toast-body">
-              You have successfully created a new movie
+              You have successfully delete this category.
             </div>
           </div>
           <div
-            class="toast fade hide p-2 mt-2 bg-gradient-info"
+            class="toast fade hide p-2 mt-2 bg-white"
             role="alert"
             aria-live="assertive"
-            id="infoToast"
+            id="warningToast"
             aria-atomic="true">
-            <div class="toast-header bg-transparent border-0">
-              <i class="material-icons text-white me-2"> notifications </i>
-              <span class="me-auto text-white font-weight-bold"
-                >Material Dashboard
-              </span>
-              <small class="text-white">11 mins ago</small>
+            <div class="toast-header border-0">
+              <i class="material-icons text-warning me-2"> travel_explore </i>
+              <span class="me-auto font-weight-bold">Material Dashboard </span>
+              <small class="text-body">11 mins ago</small>
               <i
-                class="fas fa-times text-md text-white ms-3 cursor-pointer"
+                class="fas fa-times text-md ms-3 cursor-pointer"
                 data-bs-dismiss="toast"
                 aria-label="Close"></i>
             </div>
-            <hr class="horizontal light m-0" />
-            <div class="toast-body text-white">
+            <hr class="horizontal dark m-0" />
+            <div class="toast-body">
               Hello, world! This is a notification message.
             </div>
           </div>
           <div
-            class="toast fade hide p-2 mt-2 bg-danger"
+            class="toast fade hide p-2 mt-2 bg-white"
             role="alert"
             aria-live="assertive"
             id="dangerToast"
@@ -350,9 +317,9 @@
             <div class="toast-header border-0">
               <i class="material-icons text-danger me-2"> campaign </i>
               <span class="me-auto text-gradient text-danger font-weight-bold"
-                > Failed
+                >Failed
               </span>
-              <small class="text-body">now </small>
+              <small class="text-body">11 mins ago</small>
               <i
                 class="fas fa-times text-md ms-3 cursor-pointer"
                 data-bs-dismiss="toast"
@@ -360,7 +327,7 @@
             </div>
             <hr class="horizontal dark m-0" />
             <div class="toast-body">
-              You have fail created new movie.
+              You have failed delete this category.
             </div>
           </div>
         </div>
@@ -485,7 +452,6 @@
             </div>
           </div>
           <hr class="horizontal dark my-sm-4" />
-         
           <div class="w-100 text-center">
             <h6 class="mt-8">Wibu never die!!</h6>
           </div>
@@ -502,8 +468,7 @@
       const sideBarTypes = document.querySelectorAll("#sidebar-types button")
       const navbarFixedCheckBox = document.getElementById("navbarFixed")
       const darkCheckBox = document.getElementById("dark-version")
-      const selectFormCountry = document.querySelector("#select_form_country");
-      const selectFormSeriesFilm = document.querySelector("#select_form_series_film");
+      const seriesList = document.querySelector('#series tbody')
       const toastErrContent = document.querySelector("#dangerToast .toast-body")
 
       var win = navigator.platform.indexOf("Win") > -1;
@@ -513,16 +478,9 @@
         };
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
-
-      const releasedInput = document.getElementById("released-input");
-      let currentDay = new Date();
-      currentDay.setDate(currentDay.getDate() + 1);
-      currentDay = currentDay.toISOString().split('T')[0];
-      releasedInput.setAttribute("max", currentDay);
-      
-
       const toast = document.getElementById("successToast");
       const errToast = document.getElementById("dangerToast");
+
       const notifications = document.getElementById('notify-list');
       const calculationTimeDiff = (timeNotify) => {
         // Lấy thời gian hiện tại
@@ -576,9 +534,35 @@
         errToast.classList.add("fade");
         errToast.classList.remove("show");
       };
-
-
-      //Load data start
+      const handleDelete = (event) => {
+        event.preventDefault();
+        // console.log( event.target.getAttribute("data"))
+        const result = confirm("Are you sure you want to delete this series?");
+        if(result) {
+          let id = event.target.getAttribute("data")
+          fetch("http://localhost:8000/api/series/delete?id="+id,
+          {
+            method: "DELETE",
+          })
+          .then((response) => response.json())
+          .then(data => {
+              showToast();
+              setTimeout(() => {
+                hideToast();
+              }, 2000)
+              setTimeout(() => {
+                window.location.reload();
+              }, 2100)
+            })
+            .catch(error => {
+              toastErrContent.innerHTML = "You have fail to delete this series.";
+              showErrToast();
+              setTimeout(() => {
+                hideErrToast();
+              }, 2000)
+            });
+        }
+      }
       window.addEventListener("load", () => {
         let animeMode = JSON.parse(localStorage.getItem('ani-admin-mode'));
         badgeColors.forEach((b) => {
@@ -593,38 +577,46 @@
           navbarFixedCheckBox.click();
         if(animeMode['dark-mode'] == "dark") 
           darkCheckBox.click();
-          fetch("http://localhost:8000/api/series/")
+        fetch("http://localhost:8000/api/series/")
           .then((response) => response.json())
-          .then((result) => {
-            let html ='<option selected>Select the series film</option>';
-            result.forEach((s) => {
-              html += `<option value='${s.id}'>${s.seriesName}</option>`
+          .then(async (result) => {
+            let html = "";
+            result.forEach((s,i) => {
+              html += ` <tr>
+                        <td class="text-left ps-4">${i+1}</td>
+                        <td>
+                          <p class="text-xs font-weight-bold mb-0">
+                            ${s.seriesName}
+                          </p>
+                        </td>
+                        <td class="align-middle text-center">
+                          <a
+                            href="./seriesEdit.html?id=${s.id}"
+                            class="text-secondary font-weight-bold text-xs mx-3"
+                            data-toggle="tooltip"
+                            data-original-title="Edit user">
+                            <i class="material-icons opacity-10 edit_icons">edit</i>
+                          </a>
+                          <a
+                            href="javascript:;"
+                            class="text-secondary font-weight-bold text-xs"
+                            data-toggle="tooltip"
+                            data-original-title="Delete user"
+                            onclick="handleDelete(event)">
+                            <i class="material-icons opacity-10 delete_icons" data="${s.id}">delete</i>
+                          </a>
+                        </td>
+                      </tr>`;
             });
-            selectFormSeriesFilm.innerHTML = html;
-          })
-          .catch(err => {
-            toastErrContent.innerHTML = "An error occurred while connecting to the server";
-              showErrToast();
-              setTimeout(() => {
-                hideErrToast();
-              }, 2000)
-          })
-        fetch("http://localhost:8000/api/country/")
-          .then((response) => response.json())
-          .then((result) => {
-            let html ='<option selected>Select the country name</option>';
-            result.forEach((c) => {
-              html += `<option value='${c.id}'>${c.countryName}          ${c.countryCode}</option>`
-            });
-            selectFormCountry.innerHTML = html;
+            seriesList.innerHTML = html;
             fetch("http://localhost:8000/api/notify/")
               .then((response) => response.json())
-              .then((notifies) => {
+              .then((result) => {
                 let html1 = "";
-                notifies.forEach((n,i) => {
+                result.forEach((n,i) => {
                   const timeNotify = new Date(n.time);
                   const timeDiff = calculationTimeDiff(timeNotify)
-                  const classLi = (i != notifies.length - 1 ? 'mb-2' : '')
+                  const classLi = (i != result.length - 1 ? 'mb-2' : '')
                   let iconAction = '';
                   if(n.action.includes('created'))
                     iconAction = 'create'
@@ -665,93 +657,6 @@
               }, 2000)
           })
       });
-      // Lấy đối tượng form và các trường dữ liệu trong form
-      const form = document.getElementById("film-form");
-      const nameInput = document.querySelector("input[name='name']");
-      const originNameInput = document.querySelector("input[name='originName']");
-      const statusInput = document.querySelector("input[name='status']");
-      const thumbUrlInput = document.querySelector("input[name='thumbUrl']");
-      const trailerUrlInput = document.querySelector("input[name='trailerUrl']");
-      const posterUrlInput = document.querySelector("input[name='posterUrl']");
-      const episodeTotalInput = document.querySelector("input[name='episodeTotal']");
-      const timeUNEInput = document.querySelector("input[name='timeUNE']");
-      const slugInput = document.querySelector("input[name='slug']");
-      const directorInput = document.querySelector("input[name='director']");
-      const partInput = document.querySelector("input[name='part']");
-      const descriptionInput = document.querySelector("textarea[name='description']");
-
-      // Thêm sự kiện submit cho form
-      form.addEventListener("submit", (event) => {
-        // Ngăn chặn hành động mặc định của form
-        event.preventDefault();
-
-        const result = confirm("Are you sure you want to update this episode?");
-        if(result)  {
-          // Lấy giá trị của các trường dữ liệu
-          const filmName = nameInput.value.trim();
-          const originName = originNameInput.value.trim();
-          const status =  statusInput.checked;
-          const thumbUrl =  thumbUrlInput.value.trim();
-          const trailerUrl =  trailerUrlInput.value.trim();
-          const posterUrl =  posterUrlInput.value.trim();
-          const episodeTotal =  episodeTotalInput.value;
-          const timeUNE =  timeUNEInput.value.trim();
-          const released =  releasedInput.value;
-          const slug =  slugInput.value.trim();
-          const director =  directorInput.value.trim();
-          const part =  partInput.value.trim();
-          const country = selectFormCountry.value;
-          const series = selectFormSeriesFilm.value;
-          const description = descriptionInput.value.trim();
-          // Tạo đối tượng dữ liệu để gửi đến API
-          console.log(releasedInput.value);
-          const data = {
-            filmName,
-            originName,
-            status,
-            thumbUrl,
-            trailerUrl,
-            posterUrl,
-            episodeTotal,
-            timeUNE,
-            released,
-            slug,
-            director,
-            part,
-            country,
-            series,
-            description
-          };
-
-  
-          // Gửi yêu cầu POST đến API
-          fetch("http://localhost:8000/api/film/create", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-          })
-            .then(response => response.json())
-            .then(data => {
-              showToast();
-              setTimeout(() => {
-                hideToast();
-              }, 2000)
-              setTimeout(() => {
-                window.location = './film.html'
-              }, 2100)
-            })
-            .catch(error => {
-              toastErrContent.innerHTML = "You have fail to created this film.";
-              showErrToast();
-              setTimeout(() => {
-                hideErrToast();
-              }, 2000)
-            });
-        }
-      });
-
     </script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/material-dashboard.min.js?v=3.0.5"></script>

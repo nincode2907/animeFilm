@@ -92,6 +92,15 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-white" href="../pages/series.html">
+              <div
+                class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="material-icons opacity-10">subscriptions</i>
+              </div>
+              <span class="nav-link-text ms-1">Series</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a
               class="nav-link active text-white bg-gradient-primary"
               href="../pages/category.html">
@@ -223,7 +232,7 @@
                 class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div
                   class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex align-items-center">
-                  <h6 class="text-white text-capitalize ps-3 me-auto">Create Episode</h6>
+                  <h6 class="text-white text-capitalize ps-3 me-auto">Create Category</h6>
                   <span><a
                     class="btn btn-outline-white btn-sm mb-0 me-3"
                     href="./category.html"
@@ -451,7 +460,6 @@
       const sideBarTypes = document.querySelectorAll("#sidebar-types button")
       const navbarFixedCheckBox = document.getElementById("navbarFixed")
       const darkCheckBox = document.getElementById("dark-version")
-      const categoryList = document.querySelector('#categories tbody')
       
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -579,7 +587,7 @@
         // Ngăn chặn hành động mặc định của form
         event.preventDefault();
 
-        const result = confirm("Are you sure you want to create new episode?");
+        const result = confirm("Are you sure you want to create new category?");
 
         if(result) {
           // Lấy giá trị của các trường dữ liệu
@@ -600,7 +608,6 @@
           })
             .then(response => response.json())
             .then(data => {
-              console.log(123)
               showToast();
               setTimeout(() => {
                 hideToast();
