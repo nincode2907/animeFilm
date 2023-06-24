@@ -1,6 +1,6 @@
 ﻿## This project is a website watch anime.
 
-#Let's start
+# Let's start
 First, this way to clone the project:
 ```bash
 git clone https://github.com/nincode2907/animeFilm.git
@@ -43,3 +43,7 @@ npm start
   <li>Api</li>
   <li>Sql server</li>
 </ul>
+
+
+
+Made by <i>[Phương Huy](https://github.com/NNewbieDev)</i> and <i>[Văn Nin](https://github.com/nincode2907)</i> in 2023
