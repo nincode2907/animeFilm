@@ -164,10 +164,28 @@
             class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"
             id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center me-3">
-              <div class="input-group input-group-outline">
-                <label class="form-label">Type here...</label>
-                <input type="text" class="form-control" />
-              </div>
+              <form id="search-form" class="position-relative" method="get" onsubmit="return validateSearchForm(event)">
+                <div class="input-group input-group-outline">
+                  <label class="form-label">Type here...</label>
+                  <input type="text" class="form-control" id="search-input" oninput="handleTyping(event)"/>
+                  <ul id="search-results"></ul>
+                  <button type="submit" class="btn btn-primary d-none">Search</button>
+                </div>
+                <svg id="loading-ani" class="pl disappearance" viewBox="0 0 200 200" width="8" height="8" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="pl-grad1" x1="1" y1="0.5" x2="0" y2="0.5">
+                      <stop offset="0%" stop-color="hsl(313,90%,55%)" />
+                      <stop offset="100%" stop-color="hsl(223,90%,55%)" />
+                    </linearGradient>
+                    <linearGradient id="pl-grad2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="hsl(313,90%,55%)" />
+                      <stop offset="100%" stop-color="hsl(223,90%,55%)" />
+                    </linearGradient>
+                  </defs>
+                  <circle class="pl__ring" cx="100" cy="100" r="82" fill="none" stroke="url(#pl-grad1)" stroke-width="36" stroke-dasharray="0 257 1 257" stroke-dashoffset="0.01" stroke-linecap="round" transform="rotate(-90,100,100)" />
+                  <line class="pl__ball" stroke="url(#pl-grad2)" x1="100" y1="18" x2="100.01" y2="182" stroke-width="36" stroke-dasharray="1 165" stroke-linecap="round" />
+                </svg>
+              </form>
             </div>
             <ul class="navbar-nav justify-content-end">
               <li class="nav-item d-flex align-items-center">
@@ -473,6 +491,10 @@
       const darkCheckBox = document.getElementById("dark-version")
       const filmList = document.querySelector("#films tbody");
       const toastErrContent = document.querySelector("#dangerToast .toast-body")
+      const searchForm = document.getElementById("search-form");
+      const searchInput = document.getElementById("search-input");
+      const loadingIcon = document.getElementById("loading-ani");
+      const searchResults = document.getElementById("search-results");
 
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -537,6 +559,56 @@
         errToast.classList.add("fade");
         errToast.classList.remove("show");
       };
+
+      let typingTimer;
+
+      const handleTyping = (event) => {
+        clearTimeout(typingTimer);
+
+        if (event.keyCode === 13) {
+          if (searchInput.value.trim() == "") {
+            alert("Please enter a search term");
+            return;
+          }
+          validateSearchForm();
+          return;
+        }
+        
+        typingTimer = setTimeout(() => {
+          loadingIcon.classList.remove("disappearance")
+          setTimeout(() => {
+            loadingIcon.classList.add("disappearance")
+          },1500)
+          validateSearchForm();
+        }, 800);
+      };
+
+      const validateSearchForm = (event) => {
+        if(event) {
+          event.preventDefault();
+        }
+        let searchInputValue = searchInput.value.trim();
+        searchResults.innerHTML = "";
+        
+          fetch(`http://localhost:8000/api/film/search?search=${searchInputValue}`)
+            .then((response) => response.json())
+            .then((result) => {
+              result.forEach((item) => {
+                const li = document.createElement("li");
+                const aTag = document.createElement("a");
+                aTag.href = item.trailerUrl;
+                aTag.target = 'blank';
+                aTag.textContent = item.originName;
+                li.classList.add('list-group-item')
+                li.appendChild(aTag);
+                searchResults.appendChild(li);
+              })
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        return true;
+      }
 
       const handleDelete = (event) => {
         event.preventDefault();

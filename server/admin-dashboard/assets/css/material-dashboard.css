@@ -24007,6 +24007,108 @@ pre[class*='language-'] {
   overflow-y: scroll !important;
 }
 
+#search-results {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
+  background-color: #fff;
+  z-index: 999;
+  padding: 0;
+  display:none;
+}
+
+#search-results li {
+  list-style: none;
+  width: 100%;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  color: rgba(0,0,0,0.7) !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#search-input:focus + #search-results,
+#search-input:not(:placeholder-shown) + #search-results {
+  display: block;
+}
+
+#search-results li a {
+  font-size: 12px;
+  color: rgba(0,0,0,0.7) !important;
+
+}
+
+#search-results li:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.pl {
+	display: block;
+	width: 20px;
+	height: 20px;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+.pl.disappearance {
+  display: none !important;
+}
+
+.pl__ring, .pl__ball {
+	animation: ring 2s ease-out infinite;
+}
+.pl__ball {
+	animation-name: ball;
+}
+
+/* Dark theme  */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(223,10%,10%);
+		--fg: hsl(223,10%,90%);
+	}
+}
+
+/* Animation */
+@keyframes ring {
+	from {
+		stroke-dasharray: 0 257 0 0 1 0 0 258;
+	}
+	25% {
+		stroke-dasharray: 0 0 0 0 257 0 258 0;
+	}
+	50%, to {
+		stroke-dasharray: 0 0 0 0 0 515 0 0;
+	}
+}
+@keyframes ball {
+	from, 50% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: 1;
+	}
+	64% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -109;
+	}
+	78% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -145;
+	}
+	92% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -157;
+	}
+	57%, 71%, 85%, 99%, to {
+		animation-timing-function: ease-out;
+		stroke-dashoffset: -163;
+	}
+}
+
 /* MS supports */
 @supports (-ms-overflow-style: none) {
   .ps {
