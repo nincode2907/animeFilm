@@ -11,22 +11,9 @@ const ContextProvider = ({ children }) => {
   const [playlist, setPlaylist] = useState([]);
   const [addPlaylist, setAddPlaylist] = useState(false);
   const [video, setVideo] = useState("");
-
-  useEffect(() => {
-    if (localStorage.getItem("anime-mode") === null) {
-      localStorage.setItem("anime-mode", false);
-    } else {
-      const body = window.document.body.classList;
-      const input = document.getElementById("switch");
-      const storage = JSON.parse(localStorage.getItem("anime-mode"));
-      if (storage) {
-        body.add("dark");
-        input.checked = true;
-      } else {
-        body.remove("dark");
-      }
-    }
-  }, []);
+  const [data, setData] = useState([]);
+  const [idFilm, setIdFilm] = useState();
+  useEffect(() => {}, []);
 
   return (
     <StateProvider.Provider
@@ -49,6 +36,10 @@ const ContextProvider = ({ children }) => {
         setAddPlaylist,
         video,
         setVideo,
+        data,
+        setData,
+        idFilm,
+        setIdFilm,
       }}
     >
       {children}

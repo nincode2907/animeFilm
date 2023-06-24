@@ -66,8 +66,14 @@ const Header = () => {
       </div>
       {/* Logo */}
       <Link href={"/"}>
-        <div className="basis-2/4 drop-shadow-lg w-24 h-12">
-          <Image src={"/assets/images/logo.png"} alt="OniAnime" fill />
+        <div className="basis-2/4 relative w-24 h-12">
+          <Image
+            src={"/assets/images/logo.png"}
+            alt="OniAnime"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+            className="drop-shadow-lg"
+          />
         </div>
       </Link>
       {/* Navigation */}

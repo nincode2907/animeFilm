@@ -74,7 +74,7 @@ const DynamicWatch = () => {
           <div className="bg-amber-500 dark:bg-lime-500 text-white py-3 mt-4 sm:mt-0 text-lg pl-4 sm:rounded-tl-full sm:rounded-bl-full  ">
             Các tập khác
           </div>
-          {data.current.currentEpisodes.map((item, index) => {
+          {/* {data.current.currentEpisodes.map((item, index) => {
             return (
               <Link href={`/anime/${name}/episode/${item.epsisode.toString()}`}>
                 <div
@@ -90,7 +90,7 @@ const DynamicWatch = () => {
                 </div>
               </Link>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>
