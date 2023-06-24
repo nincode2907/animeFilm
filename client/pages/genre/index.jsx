@@ -11,17 +11,24 @@ const Genre = () => {
   const [type, setType] = useState("All");
   const [indexSlice, setIndexSlice] = useState(0);
 
+  useEffect(() => {
+    fetch("http://localhost:8000/api/category")
+      .then((res) => res.json())
+      .then((dataFetch) => console.log(dataFetch));
+    fetch("http://localhost:8000/api/film")
+      .then((res) => res.json())
+      .then((dataFetch) => console.log(dataFetch));
+  }, []);
+
   const prevSlice = () => {
     const isValid = indexSlice < 1;
     const prev = isValid ? Math.floor(allGenre.length / 5) : indexSlice - 1;
-    console.log(prev);
     setIndexSlice(prev);
   };
 
   const nextSlice = () => {
     const isValid = indexSlice < Math.floor(allGenre.length / 5);
     const next = isValid ? indexSlice + 1 : 0;
-    console.log(next);
     setIndexSlice(next);
   };
 

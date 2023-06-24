@@ -1,5 +1,11 @@
-const route = require('express').Router();
-const {getAllCategory, getCategoryEdit, createCategory, updateCategory, deleteCategory} = require('../controller/categoryController')
+const route = require('express').Router()
+const {
+  getAllCategory,
+  getCategoryEdit,
+  createCategory,
+  updateCategory,
+  deleteCategory
+} = require('../controller/categoryController')
 
 route.post('/create', createCategory)
 route.get('/edit', getCategoryEdit)

@@ -2,12 +2,12 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 
-const filmRoute =  require('./router/filmRoute')
-const episodeRoute =  require('./router/episodeRoute')
-const categoryRoute =  require('./router/categoryRoute')
-const countryRoute =  require('./router/countryRoute')
-const notifyRoute =  require('./router/notifyRoute')
-const seriesRoute =  require('./router/seriesRoute')
+const filmRoute = require('./router/filmRoute')
+const episodeRoute = require('./router/episodeRoute')
+const categoryRoute = require('./router/categoryRoute')
+const countryRoute = require('./router/countryRoute')
+const notifyRoute = require('./router/notifyRoute')
+const seriesRoute = require('./router/seriesRoute')
 
 const port = 8000
 
