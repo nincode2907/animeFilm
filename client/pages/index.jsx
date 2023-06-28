@@ -60,8 +60,7 @@ const index = () => {
               //     b = b.release.split("/").reverse().join("");
               //     return a > b ? 1 : a < b ? -1 : 0;
               //   })
-              data
-                .slice(pagination * 6, pagination * 6 + 6)
+              data.slice(pagination * 6, pagination * 6 + 6)
                 .map((item, index) => {
                   return (
                     <Link

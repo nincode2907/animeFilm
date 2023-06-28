@@ -1,9 +1,10 @@
 const mssql = require('../db.js')
 const { addNotification } = require('./notifyController.js')
+const {checkValidId} = require('./staticFuture.js')
 
 const getAllFilm = (req, res) => {
   const query =
-    'SELECT f.id, filmName, originName, thurmUrl, posterUrl, slug, description, status, episodeCurrent, episodeTotal, released, countryName FROM film f, country c where f.country = c.id'
+    'SELECT f.id, filmName, originName, thurmUrl, posterUrl, slug, description, status, episodeCurrent, episodeTotal, released, countryName FROM film f, country c where f.country = c.id ORDER BY episodeCurrent DESC'
 
   mssql
     .query(query)
@@ -31,10 +32,11 @@ const getAllFilm = (req, res) => {
     .then((films) => res.json(films))
 }
 
-const createFilm = (req, res) => {
+const createFilm = async (req, res) => {
   const data = req.body
   const status = data.status ? 1 : 0
   const episodeTotal = data.episodeTotal ? data.episodeTotal : null
+  const categories = data.categories
   const query = `
     INSERT INTO film (
         [filmName]
@@ -53,6 +55,7 @@ const createFilm = (req, res) => {
         ,[part]
         ,[seriesId]
         ,[description])
+    OUTPUT INSERTED.id
     VALUES (
         N'${data.filmName}', 
         N'${data.originName}', 
@@ -75,56 +78,78 @@ const createFilm = (req, res) => {
   mssql
     .query(query)
     .then((result) => {
-      addNotification(`${data.filmName} film`, 'was created')
-      res.json(result.rowsAffected)
+      const filmId = result.recordset[0].id;
+      
+      Promise.all(categories.map(async (category) => {
+        await mssql.query(`INSERT INTO film_category([filmId], [categoryId]) VALUES(${filmId}, ${category})`)
+      }))
+      .then(() =>{
+        addNotification(`${data.filmName} film`, 'was created')
+  
+        res.json(result.rowsAffected)
+      })
+      .catch(err => {
+        res.json('Have an error: ' + err.message)
+      })
     })
     .catch((err) => res.json('Have an error: ' + err.message))
 }
 
-const getFilmEdit = (req, res) => {
-  const id = req.query.id
-  const query =
+const getFilmEdit = async (req, res) => {
+  let id = req.query.id
+  let checkResult = await checkValidId(id, 'film')
+  if(checkResult === 2) {
+    const query =
     'SELECT filmName, originName, status, thurmUrl, posterUrl, trailerUrl, episodeCurrent, episodeTotal, timeUNE, released, director , country , part, seriesId, description  FROM film  where id = ' +
     id
-  const queryCate =
-    'SELECT categoryName FROM film_category fc, category c WHERE fc.categoryId = c.id AND fc.filmId = ' + id
-  const queryGetSeriId = 'SELECT seriesId FROM film WHERE id = ' + id
+    const queryCate =
+      'SELECT categoryName FROM film_category fc, category c WHERE fc.categoryId = c.id AND fc.filmId = ' + id
+    const queryGetSeriId = 'SELECT seriesId FROM film WHERE id = ' + id
 
-  mssql
-    .query(queryGetSeriId)
-    .then((seriId) => seriId.recordset[0].seriesId)
-    .then((seriId) => {
-      const querySeries = `SELECT id, part FROM film WHERE seriesId = ${seriId} ORDER BY released`
-      mssql
-        .query(querySeries)
-        .then((seriesRes) => seriesRes.recordset)
-        .then((series) => {
-          mssql
-            .query(queryCate)
-            .then((categoriesRes) => {
-              let categories = categoriesRes.recordset.map((c) => c.categoryName)
-              return {
-                series,
-                categories
-              }
-            })
-            .then((data) => {
-              mssql.query(query).then((result) => {
-                let film = result.recordset[0]
-                film.categories = data.categories
-                film.series = data.series
-                res.json(film)
+    mssql.query(queryGetSeriId)
+      .then((seriId) => seriId.recordset[0].seriesId)
+      .then((seriId) => {
+        const querySeries = `SELECT id, part FROM film WHERE seriesId = ${seriId} ORDER BY released`
+
+        mssql.query(querySeries)
+          .then((seriesRes) => seriesRes.recordset)
+          .then((series) => {
+            mssql
+              .query(queryCate)
+              .then((categoriesRes) => {
+                let categories = categoriesRes.recordset.map((c) => c.categoryName)
+                return {
+                  series,
+                  categories
+                }
               })
-            })
-            .catch((err) => res.json('Have an error: ' + err.message))
-        })
-    })
+              .then((data) => {
+                mssql.query(query).then((result) => {
+                  let film = result.recordset[0]
+                  film.categories = data.categories
+                  film.series = data.series
+                  res.json(film)
+                })
+              })
+              .catch((err) => res.json('Have an error: ' + err.message))
+          })
+      })
+  }
+  else if(checkResult === 1 ) {
+          res.writeHead(404, { 'Content-Type': 'text/plain' })
+          res.end('Id not exists')
+      }
+  else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' })
+      res.end('Id not valid')
+  }
 }
 
-const updateFilm = (req, res) => {
+const updateFilm = async (req, res) => {
   const data = req.body
   const status = data.status ? 1 : 0
   const episodeTotal = data.episodeTotal ? data.episodeTotal : null
+  const categories = data.categories
   const query = `UPDATE [dbo].[film]
     SET [filmName] = N'${data.filmName}'
        ,[originName] = N'${data.originName}'
@@ -142,6 +167,30 @@ const updateFilm = (req, res) => {
        ,[country] = ${data.country}
        ,[description] = N'${data.description}'
   WHERE id=${data.id}`
+
+  const queryCF =  `SELECT categoryId FROM film_category WHERE filmId = ${data.id}`
+  mssql
+    .query(queryCF)
+    .then(async (result) => {
+      const resultId = result.recordset.map(c => c.categoryId)
+
+      const categoriesToRemove = resultId.filter(c => !categories.includes(c))
+      const categoriesToAdd = categories.filter(c => !resultId.includes(c))
+      
+      if(categoriesToRemove.length > 0) {
+        const removeQuery = `DELETE FROM film_category WHERE filmId = ${data.id} AND categoryId IN (${categoriesToRemove.join(
+          ","
+        )})`;
+        await mssql.query(removeQuery);
+      }
+
+      if(categoriesToAdd.length > 0) {
+        const addQuery = `INSERT INTO film_category (filmId, categoryId) VALUES ${categoriesToAdd.map((category) => `(${data.id}, ${category})`).join(", ")}`;
+        await mssql.query(addQuery);
+      }
+    })
+    .catch((err) => res.json('Have an error: ' + err.message))
+
   mssql
     .query(query)
     .then((result) => {
@@ -151,17 +200,36 @@ const updateFilm = (req, res) => {
     .catch((err) => res.json('Have an error: ' + err.message))
 }
 
-const deleteFilm = (req, res) => {
-  const id = req.query.id
-  const query = `DELETE FROM film WHERE id = ${id}`
+const deleteFilm = async (req, res) => {
+  let id = req.query.id
+  let checkResult = await checkValidId(id, 'film')
+  if(checkResult === 2) {
+    const queryCF =  `DELETE FROM film_category WHERE filmId = ${id}`
+    const query = `DELETE FROM film WHERE id = ${id}`
 
-  mssql
-    .query(query)
-    .then((result) => {
-      addNotification('A film', 'was deleted')
-      res.json(result.rowsAffected)
-    })
-    .catch((err) => res.json('Have an error: ' + err.message))
+    mssql
+      .query(queryCF)
+      .then((result) => {
+        mssql
+        .query(query)
+        .then((result) => {
+          addNotification('A film', 'was deleted')
+          res.json(result.rowsAffected)
+        })
+        .catch((err) => res.json('Have an error: ' + err.message))
+      })
+      .catch((err) => res.json('Have an error: ' + err.message))
+  
+   
+  }
+  else if(checkResult === 1 ) {
+          res.writeHead(404, { 'Content-Type': 'text/plain' })
+          res.end('Id not exists')
+      }
+  else {
+      res.writeHead(404, { 'Content-Type': 'text/plain' })
+      res.end('Id not valid')
+  }
 }
 
  
@@ -192,7 +260,6 @@ const lookingFilms = (req, res) => {
 }
 
 module.exports = {
-<<<<<<< HEAD
     getAllFilm,
     createFilm,
     getFilmEdit,
@@ -200,11 +267,3 @@ module.exports = {
     deleteFilm,
     lookingFilms
 }
-=======
-  getAllFilm,
-  createFilm,
-  getFilmEdit,
-  updateFilm,
-  deleteFilm
-}
->>>>>>> 937ee32ce80c9d3da01630362485121e9b770cbf

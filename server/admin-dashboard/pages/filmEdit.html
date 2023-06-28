@@ -288,6 +288,16 @@
                     </select>
                     <select id="select_form_country" name="country" class="form-select input-group-outline mb-3 px-2">
                     </select>
+                    <div class="accordion-item btn-outline-warning">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button btn-outline-warning mb-3 m-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          Select Categories
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div id="category-list" class="accordion-body form-check btn-outline-warning"></div>
+                      </div>
+                    </div>
                     <div class="input-group input-group-outline mb-3 is-filled">
                       <textarea name="description" class="form-control" placeholder="Input description..." rows="4"></textarea>
                     </div>
@@ -520,6 +530,7 @@
       const directorInput = document.querySelector("input[name='director']");
       const partInput = document.querySelector("input[name='part']");
       const descriptionInput = document.querySelector("textarea[name='description']");
+      const categoryList = document.getElementById('category-list');
 
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -647,6 +658,45 @@
                   hideErrToast();
                 }, 2000)
             })
+            fetch('http://localhost:8000/api/category')
+            .then(response => response.json())
+            .then(categories => {
+              return fetch('http://localhost:8000/api/category/film?filmId='+id)
+              .then(response => response.json())
+              .then(categoryIds =>{
+                const data = {
+                  categories,
+                  categoryIds
+                }
+                return data
+              })
+            })
+            .then(data => {
+              console.log(data);
+              data.categories.forEach(category => {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'categories';
+                checkbox.value = category.id;
+                checkbox.id = 'category-' + category.id;
+                checkbox.dataset.name = category.categoryName;
+                checkbox.classList.add('form-check-input')
+                if(data.categoryIds.includes(category.id))
+                  checkbox.checked = true;
+
+                const label = document.createElement('label');
+                label.htmlFor = 'category-' + category.id;
+                label.textContent = category.categoryName;
+                label.classList.add('form-check-label')
+
+                categoryList.appendChild(checkbox);
+                categoryList.appendChild(label);
+                categoryList.appendChild(document.createElement('br'));
+              });
+            })
+            .catch(error => {
+              console.log(error);
+            });
             fetch("http://localhost:8000/api/country/")
               .then((response) => response.json())
               .then((countries) => {
@@ -729,6 +779,7 @@
           const country = selectFormCountry.value;
           const series = selectFormSeriesFilm.value;
           const description = descriptionInput.value.trim();
+          let categories = Array.from(categoryList.querySelectorAll('input[name="categories"]:checked')).map(category => parseInt(category.value));
           // Tạo đối tượng dữ liệu để gửi đến API
           const data = {
             id,
@@ -746,7 +797,8 @@
             country ,
             part,
             series,
-            description 
+            description,
+            categories 
           };
   
           // Gửi yêu cầu POST đến API

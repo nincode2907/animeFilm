@@ -1,8 +1,16 @@
 const mssql = require('mssql')
 
+// const config = {
+//   server: 'MAXG\\DBOFFICIAL',
+//   user: 'sa',
+//   password: '123',
+//   database: 'animeFilm',
+//   encrypt: false
+// }
+
 const config = {
-  server: 'MAXG\\DBOFFICIAL',
-  user: 'sa',
+  server: 'NIN',
+  user: 'animeFilmLogin',
   password: '123',
   database: 'animeFilm',
   encrypt: false

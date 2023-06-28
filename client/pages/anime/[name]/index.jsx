@@ -23,10 +23,9 @@ const DynamicRoute = () => {
     data,
   } = useStateContext();
   useEffect(() => {
-    fetch(`http://localhost:8000/api/film/edit?id=1`)
+    fetch(`http://localhost:8000/api/film/edit?id=${idFilm}`)
       .then((res) => res.json())
       .then((json) => {
-        console.log("Dynamic");
         setData(json);
       });
   }, []);

@@ -13,7 +13,6 @@ const addNotification = (strongAction, action) => {
     const query = `INSERT INTO dbo.notify ([action], [strongOfAction], [time]) VALUES (N'${action}', N'${strongAction}', '${now}')`
 
     mssql.query(query)
-        .then((result) => console.log(result.rowsAffected))
         .catch((err) => console.log('Have an error: ' + err.message))
 }
 

@@ -1,5 +1,6 @@
 const mssql = require('../db.js')
 const {addNotification} = require('./notifyController.js')
+const {checkValidId} = require('./staticFuture.js')
 
 const getAllSeries = (req, res) => { 
     const query = 'SELECT id, seriesName FROM series'
@@ -22,13 +23,24 @@ const createSeries = (req, res) => {
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
-const getSeriesEdit = (req, res) => {
+const getSeriesEdit = async (req, res) => {
     let id = req.query.id
-    const query = 'SELECT seriesName FROM series WHERE id=' + id
+    let checkResult = await checkValidId(id, 'episode')
+    if(checkResult === 2) {
+        const query = 'SELECT seriesName FROM series WHERE id=' + id
 
-    mssql.query(query)
-        .then((result) => res.json(result.recordset[0]))
-        .catch((err) => res.json('Have an error: ' + err.message))
+        mssql.query(query)
+            .then((result) => res.json(result.recordset[0]))
+            .catch((err) => res.json('Have an error: ' + err.message))
+    }
+    else if(checkResult === 1 ) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' })
+            res.end('Id not exists')
+        }
+    else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' })
+        res.end('Id not valid')
+    }
 }
 
 const updateSeries = (req, res) => {
@@ -45,16 +57,27 @@ const updateSeries = (req, res) => {
         .catch((err) => res.json('Have an error: ' + err.message))
 }
 
-const deleteSeries = (req, res) => {
-    const id = req.query.id;
-    const query = `DELETE FROM series WHERE id = ${id}`
+const deleteSeries = async (req, res) => {
+    let id = req.query.id
+    let checkResult = await checkValidId(id, 'episode')
+    if(checkResult === 2) {
+        const query = `DELETE FROM series WHERE id = ${id}`
   
-    mssql.query(query)
-        .then((result) => {
-            addNotification('A series', 'was deleted')
-            res.json(result.rowsAffected)
-        })
-        .catch((err) => res.json('Have an error: ' + err.message))
+        mssql.query(query)
+            .then((result) => {
+                addNotification('A series', 'was deleted')
+                res.json(result.rowsAffected)
+            })
+            .catch((err) => res.json('Have an error: ' + err.message))
+    }
+    else if(checkResult === 1 ) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' })
+            res.end('Id not exists')
+        }
+    else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' })
+        res.end('Id not valid')
+    }
 }
 
 module.exports = {
