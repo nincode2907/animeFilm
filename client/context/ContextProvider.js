@@ -13,7 +13,13 @@ const ContextProvider = ({ children }) => {
   const [video, setVideo] = useState("");
   const [data, setData] = useState([]);
   const [idFilm, setIdFilm] = useState();
-  useEffect(() => {}, []);
+  //   useEffect(() => {
+  //     fetch("http://localhost:8000/api/film")
+  //       .then((res) => res.json())
+  //       .then((json) => {
+  //         setData(json);
+  //       });
+  //   }, []);
 
   return (
     <StateProvider.Provider

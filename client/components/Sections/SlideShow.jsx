@@ -53,7 +53,7 @@ const SlideShow = (props) => {
             fill
           />
         </div>
-        <div className="md:basis-1/2 overflow-x-hidden relative flex flex-col gap-4 rounded-tl-md rounded-bl-md bg-black/50 h-full py-4 px-3 text-amber-500 dark:text-lime-400">
+        <div className="md:basis-1/2 overflow-x-hidden relative flex flex-col gap-4 rounded-tl-md rounded-bl-md bg-black/50 h-full py-4 px-3 text-yellow-400 dark:text-lime-400">
           <div className="basis-1/5 text-2xl font-semibold truncate">
             {props.items[indexSlide].filmName}
           </div>
@@ -81,7 +81,7 @@ const SlideShow = (props) => {
                 : formatDate(props.items[indexSlide].released)}
             </div>
           </div>
-          <div className="basis-3/5 border-y-2 border-x-none border-amber-500 dark:border-lime-400 lg:py-5 py-3 px-2 overflow-y-auto ">
+          <div className="basis-3/5 border-y-2 border-x-none border-yellow-400 dark:border-lime-400 lg:py-5 py-3 px-2 overflow-y-auto ">
             {props.items[indexSlide].description}
           </div>
           <div className="">
@@ -104,7 +104,7 @@ const SlideShow = (props) => {
             href={`/anime/${props.items[indexSlide].filmName}`}
             onClick={() => setIdFilm(props.items[indexSlide].id)}
           >
-            <div className="bg-amber-500 dark:bg-lime-400 text-white font-semibold text-lg w-40 text-center rounded-md py-3">
+            <div className="bg-yellow-400 dark:bg-lime-400 text-white font-semibold text-lg w-40 text-center rounded-md py-3">
               <FontAwesomeIcon icon={faPlay} className="mr-2" /> Xem phim
             </div>
           </Link>
@@ -112,13 +112,13 @@ const SlideShow = (props) => {
       </div>
 
       <div
-        className="absolute left-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-amber-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
+        className="absolute left-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-yellow-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
         onClick={() => prevSlide()}
       >
         <FontAwesomeIcon icon={faAngleLeft} />
       </div>
       <div
-        className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-amber-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
+        className="absolute right-2 top-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0 duration-500 text-2xl text-white dark:text-lime-200 w-12 h-12 rounded-full bg-yellow-400 dark:bg-slate-500/70 cursor-pointer dark:hover:bg-slate-500 flex justify-center items-center"
         onClick={() => nextSlide()}
       >
         <FontAwesomeIcon icon={faAngleRight} />

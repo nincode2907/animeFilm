@@ -59,7 +59,7 @@ const Header = () => {
     <div className="box-border h-12 w-full drop-shadow-lg shadow-lg flex items-center justify-around z-20 relative dark:bg-neutral-500 dark:shadow-md dark:shadow-lime-200">
       {/* Icon Nav */}
       <div
-        className=" basis-1/4 text-center text-gray-400 dark:text-lime-200 hover:text-gray-600 cursor-pointer transition-all"
+        className=" basis-1/4 text-center text-yellow-400 dark:text-lime-200 hover:text-gray-600 cursor-pointer transition-all"
         onClick={() => setActiveMenu((prev) => !prev)}
       >
         <FontAwesomeIcon icon={faBars} className="text-2xl" />
@@ -86,12 +86,15 @@ const Header = () => {
       >
         {pages.map((page, index) => {
           return (
-            <div
-              className="text-gray-400 dark:text-lime-200 hover:text-gray-600 drop-shadow-lg dark:hover:text-orange-300"
+            <Link
+              href={page.path}
+              onClick={() => setActiveMenu((prev) => !prev)}
               key={index}
             >
-              <Link href={page.path}>{page.name}</Link>
-            </div>
+              <div className="text-yellow-400 dark:text-lime-200 hover:text-gray-600 drop-shadow-lg dark:hover:text-orange-300">
+                {page.name}
+              </div>
+            </Link>
           );
         })}
       </div>
@@ -101,14 +104,14 @@ const Header = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              className="px-2 py-1 rounded-md border-none outline outline-2 outline-gray-300 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
+              className="px-2 py-1 rounded-md border-none outline outline-2 outline-yellow-400 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
             />
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
-              className="absolute right-0 mr-3 text-gray-300 dark:text-gray-400 peer-focus-within:text-gray-400 dark:peer-focus-within:text-gray-500  "
+              className="absolute right-0 mr-3 text-yellow-400 dark:text-gray-400 peer-focus-within:text-gray-400 dark:peer-focus-within:text-gray-500  "
             />
           </div>
-          <div className="w-7 h-7 rounded-full outline-1 outline-gray-400 dark:outline-lime-200 outline flex justify-center items-center">
+          <div className="w-7 h-7 rounded-full outline-1 outline-yellow-400 dark:outline-lime-200 outline flex justify-center items-center">
             {isSignIn ? (
               <div
                 className="w-5 h-5 scale-100 rounded-full cursor-pointer"
@@ -120,7 +123,7 @@ const Header = () => {
               <FontAwesomeIcon
                 onClick={() => setActiveUser((prev) => !prev)}
                 icon={faUser}
-                className="text-gray-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
+                className="text-yellow-400 dark:text-lime-200 cursor-pointer hover:text-gray-500 dark:hover:text-lime-400"
               />
             )}
             <div
@@ -134,7 +137,7 @@ const Header = () => {
               {isSignIn ? (
                 <>
                   <Link href={"/account/info"}>
-                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                    <div className="w-36 text-yellow-400 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
                       <span className="pr-3">
                         <FontAwesomeIcon icon={faUser} />
                       </span>
@@ -142,7 +145,7 @@ const Header = () => {
                     </div>
                   </Link>
                   <Link href={"/playlist"}>
-                    <div className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
+                    <div className="w-36 text-yellow-400 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer">
                       <span className="pr-3">
                         <FontAwesomeIcon icon={faListUl} />
                       </span>
@@ -152,7 +155,7 @@ const Header = () => {
                   <Link href={"/"}>
                     <div
                       onClick={() => setIsSignIn(false)}
-                      className="w-36 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer"
+                      className="w-36 text-yellow-400 dark:text-lime-200 hover:text-gray-600 dark:hover:text-lime-500 cursor-pointer"
                     >
                       <span className="pr-3">
                         <FontAwesomeIcon icon={faRightToBracket} />
@@ -164,7 +167,7 @@ const Header = () => {
               ) : (
                 users.map((user, index) => (
                   <div
-                    className="w-36 dark:text-lime-200 hover:text-gray-600"
+                    className="w-36 text-yellow-400 dark:text-lime-200 hover:text-gray-600"
                     key={index}
                   >
                     <Link href={user.path}>

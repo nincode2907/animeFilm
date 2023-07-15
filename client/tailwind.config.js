@@ -12,7 +12,10 @@ module.exports = {
     extend: {
       colors: {
         yellow: {
-          400: "#FFD93D",
+          400: "#E14D2A",
+        },
+        slate: {
+          50: "#EEE3CB",
         },
       },
       boxShadow: {
