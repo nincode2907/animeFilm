@@ -10,16 +10,10 @@ const ContextProvider = ({ children }) => {
   const [isSignIn, setIsSignIn] = useState(false);
   const [playlist, setPlaylist] = useState([]);
   const [addPlaylist, setAddPlaylist] = useState(false);
-  const [video, setVideo] = useState("");
+  const [video, setVideo] = useState(1);
   const [data, setData] = useState([]);
   const [idFilm, setIdFilm] = useState();
-  //   useEffect(() => {
-  //     fetch("http://localhost:8000/api/film")
-  //       .then((res) => res.json())
-  //       .then((json) => {
-  //         setData(json);
-  //       });
-  //   }, []);
+  const [episodes, setEpisodes] = useState([]);
 
   return (
     <StateProvider.Provider
@@ -46,6 +40,8 @@ const ContextProvider = ({ children }) => {
         setData,
         idFilm,
         setIdFilm,
+        episodes,
+        setEpisodes,
       }}
     >
       {children}

@@ -14,6 +14,7 @@ const DynamicRoute = () => {
   const router = useRouter();
   const [detailItem, setDetailItem] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { setEpisodes, episodes } = useStateContext();
   const { name, id } = router.query;
 
   const {
@@ -28,11 +29,15 @@ const DynamicRoute = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const responseFilm = await fetch(
           `http://localhost:8000/api/film/edit?id=${idFilm}`
         );
-        const json = await response.json();
-        setDetailItem(json);
+        const dataFilm = await responseFilm.json();
+        const responseEp = await fetch("http://localhost:8000/api/episode/");
+        const dataEp = await responseEp.json();
+        setEpisodes(dataEp.filter((item) => item.filmName === name));
+        console.log(dataEp[0]);
+        setDetailItem(dataFilm);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -50,7 +55,10 @@ const DynamicRoute = () => {
   (() => {
     for (let i = 0; i < 10; i++) {
       starRating.push(
-        <div className=" text-slate-300 hover:text-yellow-400 cursor-pointer">
+        <div
+          key={i}
+          className=" text-slate-300 hover:text-yellow-400 cursor-pointer"
+        >
           <FontAwesomeIcon icon={faStar} />
         </div>
       );
@@ -63,10 +71,8 @@ const DynamicRoute = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Render a loading state if data is being fetched
+    return <div>Loading...</div>;
   } else {
-    console.log(detailItem.series); // Log only when detailItem is updated
-
     return (
       <div className="md:w-3/4 w-full mx-auto py-4 min-h-screen">
         <div className="">
@@ -89,7 +95,7 @@ const DynamicRoute = () => {
               />
               <Link
                 href={`${detailItem.filmName}/episode/1`}
-                onClick={() => setVideo("/assets/video.mp4")}
+                onClick={() => setVideo(1)}
               >
                 <div className="text-white absolute top-3/4 h-10 w-3/4 left-1/2 -translate-x-1/2 flex items-center justify-center rounded-lg dark:bg-lime-400 dark:hover:bg-lime-600 hover:bg-yellow-400 bg-yellow-400  cursor-pointer">
                   Xem phim
@@ -209,24 +215,22 @@ const DynamicRoute = () => {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 Tập mới:
-                {/* {detailItem.currentEpisodes
-                          .slice(-3)
-                          .reverse()
-                          .map((episodes, idx) => (
-                            <Link
-                              href={`${detailItem.name}/episode/${episodes.epsisode}`}
-                              key={idx}
-                            >
-                              <div
-                                className="flex items-center justify-center w-8 h-8 dark:bg-lime-400 bg-yellow-400 rounded-full hover:opacity-80 cursor-pointer"
-                                onClick={() => setVideo(episodes.video)}
-                              >
-                                <div className="text-white">
-                                  {episodes.epsisode}
-                                </div>
-                              </div>
-                            </Link>
-                          ))} */}
+                {episodes
+                  .slice(-3)
+                  .reverse()
+                  .map((item, idx) => (
+                    <Link
+                      href={`${detailItem.name}/episode/${item.number_set}`}
+                      key={idx}
+                    >
+                      <div
+                        className="flex items-center justify-center w-8 h-8 dark:bg-lime-400 bg-yellow-400 rounded-full hover:opacity-80 cursor-pointer"
+                        onClick={() => setVideo(item.number_set)}
+                      >
+                        <div className="text-white">{item.number_set}</div>
+                      </div>
+                    </Link>
+                  ))}
               </div>
             </div>
             <div className="basis-1/2 flex flex-col">
