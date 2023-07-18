@@ -101,7 +101,7 @@ const SlideShow = (props) => {
             </span>
           </div>
           <Link
-            href={`/anime/${props.items[indexSlide].filmName}`}
+            href={`/anime/${props.items[indexSlide].filmName}/`}
             onClick={() => setIdFilm(props.items[indexSlide].id)}
           >
             <div className="bg-yellow-400 dark:bg-lime-400 text-white font-semibold text-lg w-40 text-center rounded-md py-3">

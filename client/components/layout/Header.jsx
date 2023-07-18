@@ -104,7 +104,7 @@ const Header = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              className="px-2 py-1 rounded-md border-none outline outline-2 outline-yellow-400 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
+              className="px-2 py-1 rounded-md border-none outline outline-2 outline-yellow-400 dark:outline-lime-500 focus-visible:outline-gray-400 peer dark:bg-slate-200 dark:focus-visible:outline-lime-400"
             />
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
