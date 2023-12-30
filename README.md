@@ -1,49 +1,63 @@
-﻿## This project is a website watch anime.
+﻿# AnimeFilm
 
-# Let's start
-First, this way to clone the project:
-```bash
-git clone https://github.com/nincode2907/animeFilm.git
+AnimeFilm is a website for watching anime. This project is built using TypeScript, Node.js, and SQL Server.
 
-npm install
-```
+## Getting Started
 
-# User manual
-To run this website in local, use commands:
+To get started with AnimeFilm, follow these steps:
 
-Go to client
-```bash
-cd client
+1. Clone the project repository:
+  ```bash
+  git clone https://github.com/nincode2907/animeFilm.git
+  ```
 
-npm run dev
-```
+2. Install the dependencies:
+  ```bash
+  npm install
+  ```
 
-Run server
-```bash
-cd server
+## Usage
 
-npm run dev
-```
+To run the website locally, use the following commands:
 
-To open administator dashboard
+1. Go to the client directory:
+  ```bash
+  cd client
+  ```
 
-```bash
-cd server
+2. Start the client development server:
+  ```bash
+  npm run dev
+  ```
 
-cd admin-dashboard
+3. Open another terminal and go to the server directory:
+  ```bash
+  cd server
+  ```
 
-npm start
-#Note: Need run server previous. 
-```
+4. Start the server development server:
+  ```bash
+  npm run dev
+  ```
 
-#Technical
-<ul>
-  <li>Typescript</li>
-  <li>Nodejs</li>
-  <li>Api</li>
-  <li>Sql server</li>
-</ul>
+To access the administrator dashboard, follow these steps:
 
+1. Open a terminal and go to the server directory:
+  ```bash
+  cd server
+  ```
 
+2. Go to the admin-dashboard directory:
+  ```bash
+  cd admin-dashboard
+  ```
 
-Made by <i>[Phương Huy](https://github.com/NNewbieDev)</i> and <i>[Văn Nin](https://github.com/nincode2907)</i> in 2023
+3. Start the administrator dashboard:
+  ```bash
+  npm start
+  ```
+  Note: Make sure to run the server first.
+
+## Contributors
+
+This project was made by [Phương Huy](https://github.com/NNewbieDev) and [Văn Nin](https://github.com/nincode2907) in 2023.
