@@ -1,0 +1,12 @@
+Guide to use server and admin dashboard
+
+1. Install package 
+    npm i install at ./server and /admin-dashboard
+
+2. Config to connect database
+    if use what sql database (mssql/mysql), change type in .env file and change connect information
+
+3. Environment
+    use 'dev'
+
+4. npm run dev to start
