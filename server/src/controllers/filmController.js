@@ -8,7 +8,7 @@ class FilmController {
   }
   
   createFilm = async (req, res, next) => {
-    res.status(201).json(await FilmModel.createFilm(req.body));
+    res.status(200).json( await FilmModel.createFilm(req.body))
   }
   
   getFilmEdit = async (req, res) => {

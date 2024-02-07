@@ -10,7 +10,7 @@ class CategoryController {
     }
 
     getCategoriesByFilm = async (req, res) => {
-        res.status(200).json(await CategoryModel.getCategories(req.query.filmId))
+        res.status(200).json(await CategoryModel.getCategoriesByFilm(req.query.filmId))
     }
 
     createCategory = async (req, res) => {
