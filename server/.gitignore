@@ -1,6 +1,7 @@
 # server
 /node_modules/
 animeFilm-backup.bak
+.env
 
 # admin dashboard
 /admin-dashboard/node_modules/

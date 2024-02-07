@@ -24066,6 +24066,10 @@ pre[class*='language-'] {
   animation-name: ball;
 }
 
+#category-list:hover {
+  opacity: 1 !important;
+}
+
 /* Dark theme  */
 @media (prefers-color-scheme: dark) {
   :root {

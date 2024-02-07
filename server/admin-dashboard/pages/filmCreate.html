@@ -591,18 +591,35 @@
       //Load data start
       window.addEventListener("load", () => {
         let animeMode = JSON.parse(localStorage.getItem('ani-admin-mode'));
-        badgeColors.forEach((b) => {
-          if(b.getAttribute("data-color") === animeMode['badge-color']) 
-            b.click(this);
-        })
-        sideBarTypes.forEach((sb) => {
-          if(sb.getAttribute("data-class") === animeMode['sidebar-type']) 
-            sb.click(this);
-        }) 
-        if(animeMode['navbar-fixed'] == "none") 
-          navbarFixedCheckBox.click();
-        if(animeMode['dark-mode'] == "dark") 
-          darkCheckBox.click();
+        if (animeMode) {
+          if (animeMode['badge-color']) {
+            badgeColors.forEach((b) => {
+              if (b.getAttribute("data-color") === animeMode['badge-color']) {
+                b.click();
+              }
+            });
+          }
+
+          if (animeMode['sidebar-type']) {
+            sideBarTypes.forEach((sb) => {
+              if (sb.getAttribute("data-class") === animeMode['sidebar-type']) {
+                sb.click();
+              }
+            });
+          }
+
+          if (animeMode['navbar-fixed']) {
+            if (animeMode['navbar-fixed'] === "none") {
+              navbarFixedCheckBox.click();
+            }
+          }
+
+          if (animeMode['dark-mode']) {
+            if (animeMode['dark-mode'] === "dark") {
+              darkCheckBox.click();
+            }
+          }
+        }
           fetch("http://localhost:8000/api/series/")
           .then((response) => response.json())
           .then((result) => {

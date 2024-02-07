@@ -81,7 +81,7 @@
     <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto position-relative">
-        <video playsinline autoplay muted loop poster="../assets/img/illustrations/poster-sign-in.jpeg" class="video-signin">
+        <video playsinline autoplay muted controls loop poster="../assets/img/illustrations/poster-sign-in.jpeg" class="video-signin">
           <source src="../assets/videos/sign-in.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -161,7 +161,7 @@
   <script>
     window.onload = function() {
       // Material Design Input function
-      var inputs = document.querySelectorAll('input');
+      var inputs = document.querySelectorAll('input')
 
       for (var i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('focus', function(e) {

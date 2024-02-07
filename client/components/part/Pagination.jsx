@@ -22,24 +22,28 @@ const Pagination = (props) => {
               }}
               key={index}
             >
-              <div className="inline-block w-1/2 sm:w-1/3 lg:w-1/4 xl:w-1/6 mb-4 drop-shadow-lg group ">
+              <div className="inline-block w-1/2 sm:w-1/3 lg:w-1/4 xl:w-1/6 mb-4 group">
                 <div className="flex flex-col justify-center items-center">
                   <div
                     style={{
                       backgroundImage: `url(${item.thurmUrl})`,
                     }}
-                    className="w-40 h-64 relative bg-cover rounded-md opacity-75 group-hover:opacity-100 duration-500 drop-shadow-xl "
+                    className="w-40 h-64 outline outline-4 outline-stone-700 drop-shadow-xl hover:outline-orange-400 dark:hover:outline-lime-400 relative bg-cover rounded-md opacity-75 group-hover:opacity-100 duration-500 "
                   >
-                    <div className="absolute w-12 h-12 top-2 right-2 rounded-full flex justify-center items-center bg-yellow-400 dark:bg-lime-300">
-                      <div className="text-white font-medium">{item.rated}</div>
+                    <div className="absolute w-12 h-12 bottom-2 left-2 rounded-full flex justify-center items-center bg-stone-700 dark:bg-lime-400">
+                      <div className="text-orange-400 font-medium dark:text-white">
+                        {item.rated}
+                      </div>
                     </div>
-                    <div className="absolute top-2 left-2 rounded-md p-1 flex flex-col justify-center items-center text-white bg-yellow-400 dark:bg-lime-300">
+                    <div className="absolute max-w-xs top-2 left-2 rounded-md py-1 px-3 flex gap-3 justify-center items-center text-orange-400 bg-stone-700 dark:bg-lime-400 dark:text-white">
                       <FontAwesomeIcon
                         icon={faFilm}
                         className="text-center font-medium"
                       />
                       <div className="text-center font-medium">
-                        {item.episodeCurrent / item.episodeTotal === 1
+                        {item.episodeCurrent === null
+                          ? "?"
+                          : item.episodeCurrent / item.episodeTotal === 1
                           ? "Hoàn thành"
                           : item.episodeCurrent +
                             "/" +
@@ -49,7 +53,7 @@ const Pagination = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="w-40 text-yellow-400 dark:text-lime-300 group-hover:text-yellow-400 dark:group-hover:text-lime-300 font-semibold text-center truncate">
+                  <div className="w-40 mt-1 text-stone-700 transition duration-500 dark:text-lime-200 group-hover:text-orange-400 dark:group-hover:text-white font-semibold text-center truncate">
                     {item.filmName}
                   </div>
                 </div>
