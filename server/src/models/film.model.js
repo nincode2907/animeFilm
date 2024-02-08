@@ -119,17 +119,17 @@ class FilmModel {
         ];
 
         return new Promise(async (resolve, reject) => {
+
             connection.query(query, values, (err, results) => {
                 if(err) reject(new EntityError("Can not get films data"));
-
                 const filmId = results.insertId;
-                resolve(new Promise(async (resolveCategories, rejectCategories) => {
+                resolve(new Promise(async (resolve, rejectCategories) => { 
                     categories.map(async (category) => {
                         await connection.query(`INSERT INTO \`dbo.film_category\`(filmId, categoryId) VALUES(${filmId}, ${category})`, (err) => {
                             if(err) rejectCategories(new EntityError("Create Categories of film failed"));
                         })
                     })
-                    resolve(`${data.filmName} film`+ ' was created')
+                    resolve({status: 'success'});
                     addNotification(`${data.filmName} film`, 'was created')
                 }))
             })
@@ -142,7 +142,7 @@ class FilmModel {
             let checkResult = await checkValidId(id, this.tableName);
             if (checkResult == 2) { 
                 const query =
-                    `SELECT filmName, originName, status, thurmUrl, posterUrl, trailerUrl, episodeCurrent, episodeTotal, timeUNE, released, director , country , part, seriesId, description  FROM  ${this.tableName} where id = ` +
+                    `SELECT filmName, originName, status, thurmUrl, posterUrl, trailerUrl, episodeCurrent, episodeTotal, slug, timeUNE, released, director , country , part, seriesId, description  FROM  ${this.tableName} where id = ` +
                     id;
 
                 const queryCate =
@@ -150,21 +150,21 @@ class FilmModel {
                 const queryGetSeriId = 'SELECT seriesId FROM `dbo.film` WHERE id = ' + id;
 
                 connection.query(queryGetSeriId, (err, seriId) => {
-                    if (err) reject('Have an error: ' + err.message);
+                    if (err) reject(new Error(err.message));
                     const seriesId = seriId[0].seriesId;
 
                     const querySeries = `SELECT id, part FROM ${this.tableName} WHERE seriesId = ${seriesId} ORDER BY released`;
 
                     connection.query(querySeries, (err, seriesRes) => {
-                        if (err) reject('Have an error: ' + err.message);
+                        if (err) reject(new Error(err.message));
                         const series = seriesRes;
 
                         connection.query(queryCate, (err, categoriesRes) => {
-                            if (err) reject('Have an error: ' + err.message);
+                            if (err) reject(new Error(err.message));
                             const categories = categoriesRes.map((c) => c.categoryName);
 
                             connection.query(query, (err, result) => {
-                                if (err) reject('Have an error: ' + err.message);
+                                if (err) reject(new Error(err.message));
                                 const film = result[0];
                                 film.categories = categories;
                                 film.series = series;
@@ -180,33 +180,34 @@ class FilmModel {
             }
         });
     }
-    
+
     static updateFilm = async (data) => {
         const status = data.status ? 1 : 0;
         const episodeTotal = data.episodeTotal ? data.episodeTotal : null;
         const categories = data.categories;
         const query = `UPDATE \`dbo.film\`
-            SET \`filmName\` = N'${data.filmName}',
-                \`originName\` = N'${data.originName}',
-                \`status\` = ${status},
-                \`thurmUrl\` = '${data.thumbUrl}',
-                \`trailerUrl\` = '${data.trailerUrl}',
-                \`posterUrl\` = '${data.posterUrl}',
-                \`episodeTotal\` = ${episodeTotal},
-                \`timeUNE\` = N'${data.timeUNE}',
-                \`released\` = '${data.released}',
-                \`slug\` = '${data.slug}',
-                \`director\` = N'${data.director}',
-                \`part\` = N'${data.part}',
-                \`seriesId\` = ${data.series},
-                \`country\` = ${data.country},
-                \`description\` = N'${data.description}'
-        WHERE id=${data.id}`;
+            SET \`filmName\` = ?,
+                \`originName\` = ?,
+                \`status\` = ?,
+                \`thurmUrl\` = ?,
+                \`trailerUrl\` = ?,
+                \`posterUrl\` = ?,
+                \`episodeTotal\` = ?,
+                \`timeUNE\` = ?,
+                \`released\` = ?,
+                \`slug\` = ?,
+                \`director\` = ?,
+                \`part\` = ?,
+                \`seriesId\` = ?,
+                \`country\` = ?,
+                \`description\` = ?
+        WHERE id = ?`;
 
-        const queryCF = `SELECT categoryId FROM \`dbo.film_category\` WHERE filmId = ${data.id}`;
+        const queryCF = `SELECT categoryId FROM \`dbo.film_category\` WHERE filmId = ?`;
 
+        // console.log(data.id);
         return new Promise(async (resolve, reject) => {
-            connection.query(queryCF, async (err, result) => {
+            connection.query(queryCF, [data.id], async (err, result) => {
                 if (err) {
                     reject(new EntityError('Have an error: ' + err.message));
                     return;
@@ -218,25 +219,44 @@ class FilmModel {
                 const categoriesToAdd = categories.filter((c) => !resultId.includes(c));
 
                 if (categoriesToRemove.length > 0) {
-                    const removeQuery = `DELETE FROM \`dbo.film_category\` WHERE filmId = ${data.id} AND categoryId IN (${categoriesToRemove.join(",")})`;
-                    await connection.query(removeQuery);
+                    const removeQuery = `DELETE FROM \`dbo.film_category\` WHERE filmId = ? AND categoryId IN (${categoriesToRemove.map(() => '?').join(",")})`;
+                    await connection.query(removeQuery, [data.id, ...categoriesToRemove]);
                 }
 
                 if (categoriesToAdd.length > 0) {
                     const addQuery = `INSERT INTO \`dbo.film_category\` (filmId, categoryId) VALUES ${categoriesToAdd
-                        .map((category) => `(${data.id}, ${category})`)
+                        .map(() => `(${data.id}, ?)`)
                         .join(", ")}`;
-                    await connection.query(addQuery);
+                    await connection.query(addQuery, categoriesToAdd);
                 }
 
-                connection.query(query, (err, result) => {
+                const values = [
+                    data.name,
+                    data.originName,
+                    status,
+                    data.thumbUrl,
+                    data.trailerUrl,
+                    data.posterUrl,
+                    episodeTotal,
+                    data.timeUNE,
+                    data.released,
+                    data.slug,
+                    data.director,
+                    data.part,
+                    data.series,
+                    data.country,
+                    data.description,
+                    data.id
+                ];
+
+                connection.query(query, values, (err) => {
                     if (err) {
                         reject(new EntityError('Have an error: ' + err.message));
                         return;
                     }
 
                     addNotification(`Film ${data.filmName}`, 'was updated');
-                    resolve(true);
+                    resolve({status: 'success'});
                 });
             });
         });
@@ -262,7 +282,7 @@ class FilmModel {
                         }
 
                         addNotification('A film', 'was deleted');
-                        resolve(true);
+                        resolve({status: 'success'});
                     });
                 });
             });
@@ -274,40 +294,18 @@ class FilmModel {
     }
     
     static lookingFilms = async (keyword) => {
+        console.log('keyword', keyword);
         return new Promise((resolve, reject) => {
-            const query = `SELECT f.id, filmName, originName, thurmUrl, posterUrl, trailerUrl, slug, status, episodeCurrent, episodeTotal, released, countryName 
-                           FROM ${this.tableName} f, \`dbo.country\` c 
-                           WHERE f.country = c.id 
-                           AND (f.filmName LIKE ? OR f.originName LIKE ? )`;
+            const query = `SELECT filmName, trailerUrl
+                           FROM ${this.tableName} 
+                           WHERE (filmName LIKE ? OR originName LIKE ? )`;
             
             connection.query(query, [`%${keyword}%`, `%${keyword}%`], (err, result) => {
                 if (err) {
                     reject(new EntityError('Have an error: ' + err.message));
-                    return;
                 }
-
-                const filmsPromise = result?.map(f => {
-                    let queryCate = 'SELECT categoryName FROM `dbo.film_category` fc, `dbo.category` c WHERE fc.categoryId = c.id AND fc.filmId = ?';
-                    
-                    return new Promise((resolve, reject) => {
-                        connection.query(queryCate, [f.id], (err, categoriesRes) => {
-                            if (err) {
-                                reject(new EntityError('Have an error: ' + err.message));
-                                return;
-                            }
-
-                            let categories = categoriesRes?.map(c => c.categoryName) || [];
-                            f.slug = f.slug.trim();
-                            f.rated = (Math.random() * 10).toFixed(1);
-                            f.categories = categories;
-                            resolve(f);
-                        });
-                    });
-                });
-
-                Promise.all(filmsPromise)
-                    .then((films) => resolve(films))
-                    .catch((error) => reject(error));
+                console.log('result', result);
+                resolve(result)
             });
         });
     }

@@ -7,7 +7,8 @@ const mysqlConfig = {
   port: config.port || '',
   user: config.username || '',
   password: config.password || '',
-  database: config.dbname || ''
+  database: config.dbname || '',
+  multipleStatements: true
 }
 
 var connection

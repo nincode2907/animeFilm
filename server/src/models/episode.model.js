@@ -6,7 +6,7 @@ const {checkValidId} = require('../controllers/staticFuture.js')
 
 class EpisodeModel {
 
-    static tableName = '`dbo.film`';
+    static tableName = '`dbo.episode`';
 
     constructor () {
         connection.query(`CREATE TABLE IF NOT EXISTS ${this.tableName} (

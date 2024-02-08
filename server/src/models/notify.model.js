@@ -29,13 +29,12 @@ class NotifyModel {
     }
 
     static addNotification = (strongAction, action) => {
-        let now = new Date().toISOString();
-        const query = `INSERT INTO ${this.tableName} ([action], [strongOfAction], [time]) VALUES (N'${action}', N'${strongAction}', '${now}')`
-
-        connection.query(query, (err, results) => {
-            if(err) throw new EntityError('Add notification failed')
-
-        })
+        let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        console.log(now);
+        const query = `INSERT INTO ${this.tableName} (\`action\`, \`strongOfAction\`, \`time\`) VALUES (?, ?, ?)`;
+        connection.query(query, [action, strongAction, now], (err) => {
+            if(err) throw new EntityError('Add notification failed');
+        });
     }
 }
 

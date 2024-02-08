@@ -1,7 +1,9 @@
 'use strict';
 
 const connection = require('../dbs/mysql.db');
+const { checkValidId } = require('../controllers/staticFuture');
 const { EntityError } = require('../middlewares/error.response');
+const { addNotification } = require('./notify.model.js');
 
 class CategoryModel {
 
