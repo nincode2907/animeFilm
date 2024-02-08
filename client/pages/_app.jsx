@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
         <title>OniAnime</title>
       </Head>
       <link rel="stylesheet" href="/assets/images/favicon.png" />
-      <div className="m-0 p-0 box-border scroll-smooth font-sans dark:bg-black bg-slate-50 min-h-screen overflow-x-hidden">
+      <div className="m-0 p-0 box-border scroll-smooth font-sans dark:bg-black min-h-screen overflow-x-hidden">
         <ContextProvider>
           <Header />
           <Component {...pageProps} />

@@ -14,7 +14,7 @@ const IndexPagination = (props) => {
           <div
             key={index}
             onClick={() => props.setPagination(item)}
-            className="w-7 h-7 bg-yellow-400 cursor-pointer rounded-md text-white flex items-center justify-center rotate-45"
+            className="w-7 h-7 bg-stone-700 dark:bg-lime-400 cursor-pointer rounded-md text-orange-400 dark:text-white hover:opacity-70 flex items-center justify-center rotate-45"
           >
             <div className="-rotate-45 font-semibold">{item + 1}</div>
           </div>

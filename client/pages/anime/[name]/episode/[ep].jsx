@@ -15,19 +15,18 @@ import { useStateContext } from "@/context/ContextProvider";
 const DynamicWatch = () => {
   const router = useRouter();
   const { ep, name } = router.query;
-  const { video, setVideo, episodes } = useStateContext();
+  const { video, setVideo, episodes, setIsWarning } = useStateContext();
   const [play, setPlay] = useState(false);
   const [currentEp, setCurrentEp] = useState("");
-  const src = useRef();
+
   useEffect(() => {
     const filter = episodes.filter((item) => item.number_set === video);
-    console.log(filter[0].linkEmbed);
     setCurrentEp(filter[0].linkEmbed);
   }, [video]);
 
   return (
-    <div className="lg:mx-auto lg:w-3/4 w-full bg-slate-200 dark:bg-slate-50/50 min-h-screen mt-3">
-      <div className="bg-yellow-400 dark:bg-lime-500 text-white text-lg py-3 px-4">
+    <div className="lg:mx-auto lg:w-3/4 w-full bg-stone-200 dark:bg-slate-50/50 min-h-screen my-3">
+      <div className="bg-orange-400 dark:bg-lime-500 text-white text-lg py-3 px-4">
         {name} - tập {ep}
       </div>
       <div className="flex flex-col sm:flex-row justify-center my-4">
@@ -38,9 +37,10 @@ const DynamicWatch = () => {
               width="700"
               height="350"
               src={currentEp}
+              className="rounded-md w-full h-full"
               title="YouTube video player"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allow="accelerometer;fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
             <div
@@ -56,9 +56,13 @@ const DynamicWatch = () => {
               </div>
             </div>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xl text-white bg-yellow-400 dark:bg-lime-500 h-10 rounded-md">
+          <div className="mt-3 flex items-center justify-between text-xl text-white bg-orange-400 dark:bg-lime-500 h-10 rounded-md">
             <div className=" flex gap-4 ml-4 cursor-pointer">
-              <FontAwesomeIcon icon={faHeart} className="hover:text-gray-400" />
+              <FontAwesomeIcon
+                //       onClick={setIsWarning(true)}
+                icon={faHeart}
+                className="hover:text-gray-400"
+              />
               <FontAwesomeIcon
                 icon={faPlusSquare}
                 className="hover:text-gray-400"
@@ -74,8 +78,8 @@ const DynamicWatch = () => {
           </div>
         </div>
         {/* episode */}
-        <div className="basis-1/4">
-          <div className="bg-yellow-400 dark:bg-lime-500 text-white py-3 mt-4 sm:mt-0 text-lg pl-4 sm:rounded-tl-full sm:rounded-bl-full  ">
+        <div className="basis-1/4 border-l-stone-700 dark:border-none border-4 px-4 py-2">
+          <div className="bg-orange-400 dark:bg-lime-500 text-white py-3 mt-4 sm:mt-0 text-lg pl-4 sm:rounded-tl-full sm:rounded-bl-full  ">
             Các tập khác
           </div>
           <div className="max-h-96 overflow-y-auto">
@@ -89,8 +93,8 @@ const DynamicWatch = () => {
                     onClick={() => setVideo(item.number_set)}
                     className={`inline-block ${
                       index === ep - 1
-                        ? "bg-lime-500 dark:bg-yellow-400"
-                        : "bg-yellow-400 dark:bg-lime-500"
+                        ? "bg-lime-400 dark:bg-orange-400"
+                        : "bg-orange-400 dark:bg-lime-400"
                     } text-white font-semibold hover:opacity-60 cursor-pointer my-3 ml-3 w-1/6 sm:w-1/3  text-center py-2 rounded-md`}
                   >
                     {item.number_set}

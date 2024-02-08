@@ -11,7 +11,7 @@ const ContextProvider = ({ children }) => {
   const [playlist, setPlaylist] = useState([]);
   const [addPlaylist, setAddPlaylist] = useState(false);
   const [video, setVideo] = useState(1);
-  const [data, setData] = useState([]);
+
   const [idFilm, setIdFilm] = useState();
   const [episodes, setEpisodes] = useState([]);
 
@@ -36,8 +36,6 @@ const ContextProvider = ({ children }) => {
         setAddPlaylist,
         video,
         setVideo,
-        data,
-        setData,
         idFilm,
         setIdFilm,
         episodes,
