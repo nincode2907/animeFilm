@@ -497,6 +497,8 @@
       fetch("http://localhost:8000/api/country/")
         .then((response) => response.json())
         .then((result) => {
+          if (result.code && result.code == "error") return;
+
           let html = '<option selected>Select the country name</option>';
           result.forEach((c) => {
             html += `<option value='${c.id}'>${c.countryName}          ${c.countryCode}</option>`
@@ -559,7 +561,7 @@
       const ok = confirm("Are you sure you want to update this episode?");
       if (ok) {
         const formData = new FormData(form)
-        formData.set('status', formData.get('status') === 'on' ? 1 : 0)
+        formData.set('status', formData.get('status') === 'on' ? 1 : 0)          
 
         try {
           const response = await fetch(`http://localhost:8000/api/film/create`, {
